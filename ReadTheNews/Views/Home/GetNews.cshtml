@@ -1,0 +1,81 @@
+﻿@using ReadTheNews.Models.Rss_Models;
+@model RssChannel
+
+<div id="loading" style="display:none; color:Red; font-weight:bold;">
+    <p>Идет загрузка...</p>
+</div>
+<div id="news">
+    @if (Model != null)
+    {
+        <h4>RSS-канал @Model.Title</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Language)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Language)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Link)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Link)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageSrc)
+            </dt>
+
+            <dd>
+                <p>
+                    @Html.DisplayFor(model => model.ImageSrc)
+                </p>
+                <figure>
+                    <img src="@Model.ImageSrc" alt="изображение rss-канала" />
+                </figure>
+            </dd>
+
+        </dl>
+
+        <ul>
+            @foreach (RssItem item in Model.RssItems)
+            {
+                <li>
+                    <p>@item.Title</p>
+                    <p>@item.Description</p>
+                    <p>@item.Date</p>
+                    <p>@item.ImageSrc</p>
+                    <p>@item.Link</p>
+                    <p>@item.RssChannel.Title</p>
+                    <ul class="list-inline glyphicon-list">
+                        @foreach (RssCategory category in item.Categories)
+                        {
+                            <li>@category.Name</li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
