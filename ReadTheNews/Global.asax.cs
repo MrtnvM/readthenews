@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using EFlogger.EntityFramework6;
 
 namespace ReadTheNews
 {
@@ -12,6 +13,8 @@ namespace ReadTheNews
     {
         protected void Application_Start()
         {
+            EFloggerFor6.Initialize();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
