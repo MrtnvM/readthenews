@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReadTheNews.Models.RssModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,10 @@ namespace ReadTheNews.Controllers
 {
     public class HomeController : Controller
     {
+        private RssContext db = new RssContext();
+
         public ActionResult Index()
-        {
+        {            
             return View();
         }
 

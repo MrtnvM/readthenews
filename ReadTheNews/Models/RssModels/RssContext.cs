@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 
-namespace ReadTheNews.Models.Rss_Models
+namespace ReadTheNews.Models.RssModels
 {
     public class RssContext : DbContext
     {

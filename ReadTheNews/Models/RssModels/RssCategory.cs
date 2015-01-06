@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ReadTheNews.Models.Rss_Models
+namespace ReadTheNews.Models.RssModels
 {
     public class RssCategory
     {

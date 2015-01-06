@@ -6,7 +6,7 @@ using System.Web;
 using System.Xml;
 using log4net;
 
-namespace ReadTheNews.Models.Rss_Models
+namespace ReadTheNews.Models.RssModels
 {
     public class RssProcessor
     {
