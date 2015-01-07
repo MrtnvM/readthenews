@@ -33,7 +33,9 @@ namespace ReadTheNews.Controllers
 
         public ActionResult GetNews(int id)
         {
-            return View(db.RssChannels.Include("RssItems").Single(c => c.Id == id));
+            RssChannel channel = db.RssChannels.AsQueryable().First(c => c.Id == id);
+            channel.RssItems = channel.RssItems.Take(10).ToList();
+            return View(channel);
         }
 
         [HttpPost]
