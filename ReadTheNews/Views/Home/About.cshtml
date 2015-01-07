@@ -1,7 +1,25 @@
-﻿@{
+﻿@using ReadTheNews.Models
+@{
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+
+<div class="col-md-9">
+    <form action="/Home/GetNews" class="form-inline" method="post">
+        <div class="form-group">
+            <input type="text" name="url" class="form-control" placeholder="Введите адрес rss-канала">
+        </div>
+        <button type="submit" class="btn btn-primary">Получить Rss-канал</button>
+    </form>
+</div>
+<div class="col-md-3">
+    <ul>
+        @foreach (RssChannel channel in ViewBag.RssChannels)
+        {
+            <li>@Html.ActionLink(channel.Title, "GetNews", new { id = channel.Id})</li>
+        }
+    </ul>
+</div>

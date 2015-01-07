@@ -5,14 +5,14 @@ namespace ReadTheNews.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ReadTheNews.Models.RssModels.RssContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ReadTheNews.Models.RssContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(ReadTheNews.Models.RssModels.RssContext context)
+        protected override void Seed(ReadTheNews.Models.RssContext context)
         {
             //  This method will be called after migrating to the latest version.
 

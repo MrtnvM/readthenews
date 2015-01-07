@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 
 namespace ReadTheNews.Models.RssModels
 {
@@ -35,11 +36,38 @@ namespace ReadTheNews.Models.RssModels
         [MaxLength(150)]
         public string ImageSrc { get; set; }
 
+        [Display(Name="Дата публикации")]
+        [DataType(DataType.DateTime)]
+        public DateTime PubDate { get; set; }
+
         public virtual ICollection<RssItem> RssItems { get; set; }
 
         public RssChannel()
         {
             RssItems = new List<RssItem>();
+        }
+
+        public async void GetLatestNewsAsync()
+        {
+            RssProcessor processor = await RssProcessor.GetRssProcessorAsync(this);
+
+            DateTime latestUpdate = new DateTime();
+            if (processor.Channel.LastUpdatedTime.DateTime != new DateTime())
+                latestUpdate = processor.Channel.LastUpdatedTime.DateTime;
+            else
+                latestUpdate = processor.Channel.Items.First() != null ? 
+                    processor.Channel.Items.First().PublishDate.DateTime : new DateTime();
+
+            if (this.PubDate == latestUpdate)
+                return;
+
+            var db = new RssContext();
+
+            db.RssItems.RemoveRange(this.RssItems);
+            var rssItems = await processor.GetRssItemListAsync();
+            this.RssItems = rssItems;
+            db.Entry<RssChannel>(this).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }
