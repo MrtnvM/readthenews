@@ -33,21 +33,36 @@ namespace ReadTheNews.Controllers
 
         public ActionResult GetNews(int id)
         {
-            RssChannel channel = db.RssChannels.AsQueryable().First(c => c.Id == id);
-            channel.RssItems = channel.RssItems.Take(10).ToList();
+            RssChannel channel;
+            RssProcessor processor;
+            try {
+                processor = RssProcessor.GetRssProcessor(id);
+                channel = processor.GetLatestNews();
+            }
+            catch(Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Error");
+            }
+            //channel.RssItems = db.RssItems.Where(item => item.RssChannelId == channel.Id).ToList();
             return View(channel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetNews(string url)
+        public ActionResult GetNews(string url)
         {
-            RssProcessor processor = await RssProcessor.GetRssProcessorAsync(url);
+            RssProcessor processor = RssProcessor.GetRssProcessor(url);
             if (!processor.IsChannelDownload)
-                return Redirect("Error");
+                return RedirectToAction("Error");
 
-            RssChannel channel = await processor.GetRssChannelAsync();
+            RssChannel channel = processor.GetLatestNews();
 
             return View(channel);
+        }
+
+        public ActionResult Error()
+        {
+            return View("ErrorMessage");
         }
     }
 }

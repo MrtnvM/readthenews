@@ -38,11 +38,7 @@ namespace ReadTheNews.Models
         public int RssChannelId { get; set; }
         public virtual RssChannel RssChannel { get; set; }
 
-        public virtual ICollection<RssCategory> Categories { get; set; }
-
-        public RssItem()
-        {
-            Categories = new List<RssCategory>();
-        }
+        public int RssCategoryId { get; set; }
+        public virtual RssCategory RssCategory { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Ошибка :(";
+}
+
+<h1 class="text-danger">Произошла ошибка.</h1>
+<h3 class="text-danger">Во время вашего последнего запроса возникла необработанная ошибка.</h3>
+<p>@TempData["Error"]</p>
+@{ 
+    TempData["Error"] = null;
+}
+

@@ -6,7 +6,8 @@
 }
 
 <h2>@Model.Title</h2>
-
+<p>@ViewBag.RssChannelTitle</p>
+<p>@ViewBag.RssChannelDescription</p>
 <div>
     <h4>Данные о Rss-канале</h4>
     <hr />
@@ -62,7 +63,7 @@
     </dl>
 </div>
 <ul>
-    @foreach (RssItem item in Model.RssItems.Take(20))
+    @foreach (RssItem item in Model.RssItems)
     {
         <li>
             <p>@item.Title</p>
@@ -70,12 +71,7 @@
             <p>@item.Date</p>
             <p>@item.Link</p>
             <p>@item.ImageSrc</p>
-            <ul>
-                @foreach (RssCategory category in item.Categories)
-                {
-                    <li>@category.Name</li>
-                }
-            </ul>
+            <p>@item.RssCategory.Name</p>
         </li>
     }
 </ul>

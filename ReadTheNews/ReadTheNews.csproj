@@ -42,6 +42,9 @@
     <Reference Include="EFlogger.EntityFramework6">
       <HintPath>..\packages\EFlogger-For6.0.3.3\lib\EFlogger.EntityFramework6.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.Extended">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.133\lib\net45\EntityFramework.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -241,6 +244,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\GetNews.cshtml" />
+    <Content Include="Views\Home\ChannelNews.cshtml" />
+    <Content Include="Views\Shared\ErrorMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

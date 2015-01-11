@@ -6,4 +6,8 @@
 
 <h1 class="text-danger">Произошла ошибка.</h1>
 <h2 class="text-danger">Во время вашего последнего запроса возникла необработанная ошибка.</h2>
+<p>@TempData["Error"]</p>
+@{ 
+    TempData["Error"] = null;
+}
 
