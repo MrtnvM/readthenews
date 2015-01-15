@@ -1,23 +1,29 @@
 ﻿@using ReadTheNews.Models
 @{
-    ViewBag.Title = "About";
+    ViewBag.Title = "RSS - Каналы";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@ViewBag.Title</h2>
+<br />
 
-<div class="col-md-9">
-    <form action="/Home/GetNews" class="form-inline" method="post">
-        <div class="form-group">
-            <input type="text" name="url" class="form-control" placeholder="Введите адрес rss-канала">
-        </div>
-        <button type="submit" class="btn btn-primary">Получить Rss-канал</button>
-    </form>
+<h3>Добавить новый канал</h3>
+<div class="row">
+    <div class="col-md-9">
+        <form action="/Home/GetNews" class="form-inline" method="post">
+            <div class="form-group">
+                <input type="text" name="url" class="form-control" placeholder="Введите адрес rss-канала">
+            </div>
+            <button type="submit" class="btn btn-primary">Получить Rss-канал</button>
+        </form>
+    </div>
 </div>
-<div class="col-md-3">
-    <ul>
-        @foreach (RssChannel channel in ViewBag.RssChannels)
-        {
-            <li>@Html.ActionLink(channel.Title, "GetNews", new { id = channel.Id})</li>
-        }
-    </ul>
+<h3>Список доступных RSS-каналов</h3>
+<div class="row">
+    <div class="col-md-9">
+        <ul>
+            @foreach (RssChannel channel in ViewBag.RssChannels)
+            {
+                <li><h4>@Html.ActionLink(channel.Title, "GetNews", new { id = channel.Id })</h4></li>
+            }
+        </ul>
+    </div>
 </div>

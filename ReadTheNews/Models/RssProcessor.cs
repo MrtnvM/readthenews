@@ -4,8 +4,6 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Xml;
 using log4net;
-using EntityFramework.Extensions;
-using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 
 namespace ReadTheNews.Models
@@ -21,7 +19,7 @@ namespace ReadTheNews.Models
         private bool IsNewContent;        
 
         private string __sql;
-        private List<SqlParameter> __sqlParametrs = new List<SqlParameter>();
+        private List<SqlParameter> __sqlParameters = new List<SqlParameter>();
 
         public static ILog Logger { get; private set; }
 
@@ -94,7 +92,7 @@ namespace ReadTheNews.Models
             if (currentChannel.PubDate == latestUpdate && currentChannel.RssItems.Count > 0)
                 return currentChannel;
 
-            this.DeleteRssItemsByChannelId(currentChannel.Id);
+            this.DeleteOldRssItems();
 
             currentChannel.RssItems = this.GetRssItemList();
 
@@ -140,6 +138,8 @@ namespace ReadTheNews.Models
                 RssItem rssItem = GetRssItem(item);
                 if (rssItem != null)
                     rssItems.Add(rssItem);
+                if (__sqlParameters.Count > 2000)
+                    this.ExecuteQuery();
             }
 
             currentChannel.PubDate = Channel.LastUpdatedTime.DateTime != new DateTime() ?
@@ -168,17 +168,23 @@ namespace ReadTheNews.Models
                 return null;
 
             newRssItem.RssChannel = currentChannel;
+            //тестировать
+            var categories = new List<RssCategory>(item.Categories.Count);
 
-            var firstCategory = item.Categories.Count > 0 ? item.Categories[0] : null;
-            if (firstCategory == null)
-                return null;
-            
-            RssCategory tempCategory = new RssCategory { Name = firstCategory.Name };
-            this.AddRssCategoryInDb(tempCategory);
-
-            newRssItem.RssCategory = tempCategory;
+            foreach (SyndicationCategory category in item.Categories)
+            {
+                categories.Add(new RssCategory { Name = category.Name });
+            }
+            categories = categories.Distinct(new RssCategoryEqualityComparer()).ToList();
+            foreach (RssCategory category in categories)
+            {
+                this.AddRssCategoryInDb(category);
+            }
+            newRssItem.RssCategories = categories;
 
             this.AddRssItemInDb(newRssItem);
+
+            this.ExecuteQuery();
 
             return newRssItem;            
         }
@@ -205,8 +211,8 @@ namespace ReadTheNews.Models
 
         private void AddRssCategoryInDb(RssCategory category)
         {
-            string parameterName = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterName, category.Name));
+            string parameterName = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterName, category.Name));
 
             __sql += " INSERT INTO [dbo].[RssCategories](Name) " +
                      " VALUES (" + parameterName + "); ";            
@@ -214,23 +220,23 @@ namespace ReadTheNews.Models
 
         private void AddRssChannelInDb(RssChannel channel)
         {
-            string parameterTitle = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterTitle, channel.Title));
+            string parameterTitle = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterTitle, channel.Title));
 
-            string parameterLang = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterLang, channel.Language));
+            string parameterLang = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterLang, channel.Language));
 
-            string parameterLink = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterLink, channel.Link));
+            string parameterLink = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterLink, channel.Link));
 
-            string parameterDesc = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterDesc, channel.Description));
+            string parameterDesc = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterDesc, channel.Description));
 
-            string parameterImgSrc = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterImgSrc, channel.ImageSrc));
+            string parameterImgSrc = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterImgSrc, channel.ImageSrc));
 
-            string parameterDate = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterDate, channel.PubDate));
+            string parameterDate = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterDate, channel.PubDate));
 
             __sql += " INSERT INTO [dbo].[RssChannels]([Title], [Language], [Link], [Description], [ImageSrc], [PubDate]) " +
                      " VALUES (" + parameterTitle + ", " + 
@@ -243,45 +249,49 @@ namespace ReadTheNews.Models
 
         private void AddRssItemInDb(RssItem item)
         {
-            string parameterRssChannelTitle = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterRssChannelTitle, item.RssChannel.Title));
+            string parameterRssChannelTitle = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterRssChannelTitle, item.RssChannel.Title));
 
-            string parameterRssCategoryName = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterRssCategoryName, item.RssCategory.Name));
+            string parameterTitle = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterTitle, item.Title));
 
-            string parameterTitle = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterTitle, item.Title));
+            string parameterLink = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterLink, item.Link));
 
-            string parameterLink = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterLink, item.Link));
+            string parameterDesc = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterDesc, item.Description));
 
-            string parameterDesc = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterDesc, item.Description));
+            string parameterDate = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterDate, item.Date));
 
-            string parameterDate = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterDate, item.Date));
-
-            string parameterImgSrc = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterImgSrc, item.ImageSrc));            
+            string parameterImgSrc = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterImgSrc, item.ImageSrc));            
 
             __sql += " EXECUTE [dbo].[AddRssItem] " + parameterRssChannelTitle + ", " + 
-                                                      parameterRssCategoryName + ", " + 
                                                       parameterTitle + ", " + 
                                                       parameterLink + ", " + 
                                                       parameterDesc + ", " + 
                                                       parameterDate + ", " + 
                                                       parameterImgSrc + "; ";
 
+            foreach (RssCategory category in item.RssCategories)
+            {
+                string parameterCategoryName = "@parameter" + __sqlParameters.Count;
+                __sqlParameters.Add(new SqlParameter(parameterCategoryName, category.Name));
+                __sql += " EXECUTE [dbo].[AddRssItemRssCategories] " + parameterTitle + ", "
+                                                                     + parameterCategoryName + "; ";
+            }
+
             //this.ExecuteQuery();
         }
 
         private void UpdateRssChannelPubDate(RssChannel channel)
         {
-            string parameterDate = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterDate, channel.PubDate));
+            string parameterDate = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterDate, channel.PubDate));
 
-            string parameterTitle = "@parameter" + __sqlParametrs.Count;
-            __sqlParametrs.Add(new SqlParameter(parameterTitle, channel.Title));
+            string parameterTitle = "@parameter" + __sqlParameters.Count;
+            __sqlParameters.Add(new SqlParameter(parameterTitle, channel.Title));
 
             __sql += " UPDATE [dbo].[RssChannels] " + 
                      " SET [PubDate] = " + parameterDate +
@@ -290,20 +300,21 @@ namespace ReadTheNews.Models
 
         private void ExecuteQuery()
         {
-            db.Database.ExecuteSqlCommand(__sql, __sqlParametrs.ToArray());
+            db.Database.ExecuteSqlCommand(__sql, __sqlParameters.ToArray());
             __sql = "";
-            __sqlParametrs.Clear();
+            __sqlParameters.Clear();
         }
 
-        private void DeleteRssItemsByChannelId(int id)
+        private void DeleteOldRssItems()
         {
-            string parameterChannelId = "@parameter" + __sqlParametrs.Count;
+            int id = currentChannel.Id;
+            string parameterChannelId = "@parameter" + __sqlParameters.Count;
             SqlParameter channelId = new SqlParameter(parameterChannelId, id);
 
             __sql += " DELETE FROM [dbo].[RssItems] " +
                          " WHERE [dbo].[RssItems].[RssChannelId] = " + parameterChannelId + ";";
 
-            __sqlParametrs.Add(channelId);
+            __sqlParameters.Add(channelId);
         }
 
         public void Dispose()
@@ -316,9 +327,25 @@ namespace ReadTheNews.Models
             this.Dispose();
         }
     }
+
+    public class RssCategoryEqualityComparer : IEqualityComparer<RssCategory>
+    {
+        public bool Equals(RssCategory category1, RssCategory category2)
+        {
+            if (category1.Name.ToLower() == category2.Name.ToLower())
+                return true;
+            return false;
+        }
+
+        public int GetHashCode(RssCategory category)
+        {
+            return category.Name.ToLower().GetHashCode();
+        }
+    }
 }
 
 public class ChannelNotDownloadException : Exception
 {
     public ChannelNotDownloadException() : base("Rss-канал не был загружен") { }
 }
+

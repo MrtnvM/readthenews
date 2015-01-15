@@ -6,12 +6,11 @@
 }
 
 <h2>@Model.Title</h2>
-<p>@ViewBag.RssChannelTitle</p>
-<p>@ViewBag.RssChannelDescription</p>
-<div>
-    <h4>Данные о Rss-канале</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<h4>@Model.Description</h4>
+<h6>Обновлено: @Model.PubDate</h6>
+<hr />
+
+<!--    <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -61,17 +60,45 @@
         </dd>
 
     </dl>
-</div>
-<ul>
-    @foreach (RssItem item in Model.RssItems)
-    {
-        <li>
-            <p>@item.Title</p>
-            <p>@item.Description</p>
-            <p>@item.Date</p>
-            <p>@item.Link</p>
-            <p>@item.ImageSrc</p>
-            <p>@item.RssCategory.Name</p>
-        </li>
-    }
-</ul>
+    -->
+@foreach (RssItem item in Model.RssItems)
+{
+    <div class="col-lg-8 gray-bg">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5><a href="@item.Link">@item.Title</a></h5>
+            </div>
+            <div class="ibox-content">
+                <p>@item.Description</p>
+                <p>@item.Date</p>
+                <p>@item.ImageSrc</p>
+                <ul class="list-inline">
+                    @{
+                        Random r = new Random();
+                    }
+                    @foreach (RssCategory category in item.RssCategories)
+                {
+                    string classes = "label label-warning";
+                    switch (r.Next(1, 5))
+                    {
+                        case 1:
+                            classes = "label label-warning";
+                            break;
+                        case 2:
+                            classes = "label label-info";
+                            break;
+                        case 3:
+                            classes = "label label-success";
+                            break;
+                        case 4:
+                            classes = "label label-primary";
+                            break;
+                    }
+
+                        <li class="@classes">@category.Name</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}

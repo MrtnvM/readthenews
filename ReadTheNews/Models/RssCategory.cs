@@ -11,7 +11,7 @@ namespace ReadTheNews.Models
 
         [Required]
         [Display(Name="Название категории")]
-        [MaxLength(15)]
+        [MaxLength(40)]
         public string Name { get; set; }
 
         public virtual ICollection<RssItem> RssItems { get; set; }
