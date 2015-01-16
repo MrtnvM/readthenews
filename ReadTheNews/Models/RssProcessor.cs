@@ -168,7 +168,7 @@ namespace ReadTheNews.Models
                 return null;
 
             newRssItem.RssChannel = currentChannel;
-            //тестировать
+            
             var categories = new List<RssCategory>(item.Categories.Count);
 
             foreach (SyndicationCategory category in item.Categories)

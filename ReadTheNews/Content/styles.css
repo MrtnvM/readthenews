@@ -1,0 +1,19 @@
+﻿*{
+    box-sizing: border-box;
+}
+
+body {
+    background: #d9e0e7;
+    font-size: 12px;
+    font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #707478;
+    margin: 0;
+}
+
+header{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
