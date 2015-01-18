@@ -12,17 +12,93 @@
     <meta content="Read The News - most actual news for you" name="description" />
     <title>@ViewBag.Title - Read The News</title>
     
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">       
     <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/styles.css" rel="stylesheet" />
 </head>
 <body>
-    <header class="container-fluid">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu" style="display: block;">
+                    <li class="nav-header">
+                        <div class="dropdown logo">
+                            <a class="logo-link" href="/">
+                                <span>
+                                    <img class="img-squre" src="~/Content/Images/readthenews-logo.png" />
+                                </span>
+                                <span class="clear">
+                                    <span class="block m-t-xs">
+                                        <strong class="font-bold site-title">Read The News&nbsp;</strong>
+                                    </span>
+                                    <span class="site-description">Актуальные новости в удобном формате</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">
+                            RTN
+                        </div>
+                    </li>
+                    <li class="active">
+                        <a href="/">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">Рекомендации</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-clock-o"></i> <span class="nav-label">Прочитать позже</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-heart"></i> <span class="nav-label">Избранные новости</span></a>
+                    </li>
+                    <li>
+                        <a href="widgets.html"><i class="fa fa-star"></i> <span class="nav-label">Избранные каналы</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-newspaper-o"></i> <span class="nav-label">Мои новости</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-rss"></i> <span class="nav-label">Мои RSS-каналы</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-rss-square"></i> <span class="nav-label">RSS-каналы</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-send-o"></i> <span class="nav-label">E-mail рассылка</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-cog"></i> <span class="nav-label">Мои настройки</span></a>                      
+                    </li>
+                </ul>
 
-    </header>
+            </div>
+        </nav>
 
+
+        <div id="page-wrapper" class="gray-bg">
+            <header class="row border-bottom">
+                <nav class="navbar navbar-static-top" style="margin-bottom: 0;">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                        <p class="channel-title">@ViewBag.Title</p>
+                    </div>
+                    @Html.Partial("_LoginPartial")
+                </nav>                
+            </header>
+            <div class="content">
+                @RenderBody()
+                <div class="clearfix"></div>
+                
+            </div>
+            <footer>
+                <hr />
+                <p>&copy; @DateTime.Now.Year - ReadTheNews By M.M.</p>
+                <br />
+            </footer>
+        </div>
+    </div>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.11.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>

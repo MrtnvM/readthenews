@@ -14,20 +14,7 @@ namespace ReadTheNews.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
             ViewBag.RssChannels = db.RssChannels.ToList();
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
@@ -44,7 +31,6 @@ namespace ReadTheNews.Controllers
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Error");
             }
-            //channel.RssItems = db.RssItems.Where(item => item.RssChannelId == channel.Id).ToList();
             return View(channel);
         }
 

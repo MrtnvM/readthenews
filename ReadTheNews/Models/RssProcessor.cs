@@ -184,8 +184,6 @@ namespace ReadTheNews.Models
 
             this.AddRssItemInDb(newRssItem);
 
-            this.ExecuteQuery();
-
             return newRssItem;            
         }
 
