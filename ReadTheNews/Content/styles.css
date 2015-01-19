@@ -83,22 +83,28 @@ body {
 }
 
 .nav-header {
-    background: #0e9aef url(Images/header-bg.png);
-    padding: 0px 25px 10px 25px;
+    background: #0e9aef url(Images/new-header-profile.png);
+    padding: 3px 25px 22px 45px;
 }
 
 .logo{
-    text-align: center;
+
+}
+
+.logo-image{
+    margin:0 auto 0 auto;
+    padding: 0 50px 5px 0px;
 }
 
 .site-title{
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: white;
     text-shadow: 1px 1px 2px #333;
+    
 }
 
 .site-description{
-    font-size: 1em;
+    font-size: .95em;
     color: #bfc8c8;
     text-shadow: 1px 1px 2px #333;
 }
@@ -121,7 +127,8 @@ header > nav{
 }
 
 .nav > li.active {
-    border: none;
+    border-left: 4px solid #19aa8d;
+    background: #293846;
 }
 
 .nav > li.active > a {
@@ -135,7 +142,7 @@ header > nav{
 }
 
 .nav > li > a i {
-    margin-right: 6px;
+    margin-right: 2px;
     width:20px;
 }
 
@@ -195,12 +202,19 @@ header > nav{
 }
 
 .content{
-    min-height: 560px;
+    min-height: 650px;
     padding: 5px 15px 10px 15px;
 }
 
-#page-wrapper footer{
-    padding: 0px 15px 0px 15px;
+#page-wrapper footer {
+    background: none repeat scroll 0 0 white;
+    border-top: 1px solid #e7eaec;
+    bottom: 0;
+    left: 0;
+    padding: 10px 20px;
+    position: absolute;
+    right: 0;
+    font-size: 1.02em;
 }
 
 h1{
@@ -285,4 +299,8 @@ text-input{
     border-image: none;
     border-style: solid solid none;
     border-width: 1px 0px;
+}
+
+.nav-header .logo strong {
+color: #DFE4ED;
 }

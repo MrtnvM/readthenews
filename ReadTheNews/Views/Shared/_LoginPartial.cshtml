@@ -3,18 +3,18 @@
 <ul class="nav navbar-top-links navbar-right">
     @if (Request.IsAuthenticated)
     {
-        using (Html.BeginForm("Выйти", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
         {
             @Html.AntiForgeryToken()
                 <li>
-                    @Html.ActionLink("Привет " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    <a href="/Manage">@("Привет " + User.Identity.GetUserName() + "!").ToString()</a>
                 </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i>Выход</a></li>
         }
     }
     else
     {
-            <li>@Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-            <li>@Html.ActionLink("Войти", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li><a href="/Account/Register" id="registerLink"><i class="fa fa-user"></i>Зарегистрироваться</a></li>
+            <li><a href="/Account/Login" id="loginLink"><i class="fa fa-sign-in"></i>Войти</a></li>
     }
 </ul>
