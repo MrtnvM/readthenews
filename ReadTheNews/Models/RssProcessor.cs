@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.ServiceModel.Syndication;
 using System.Xml;
 using log4net;
@@ -19,6 +20,8 @@ namespace ReadTheNews.Models
         private RssChannel currentChannel;
         private string rssChannelUrl;
         private bool IsNewContent;
+
+        
 
         public static ILog Logger { get; private set; }
 
@@ -106,18 +109,7 @@ namespace ReadTheNews.Models
             if (!this.IsChannelDownload)
                 throw new ChannelNotDownloadException();
 
-            currentChannel = new RssChannel();
-
-            currentChannel.Title = Channel.Title != null ? Channel.Title.Text : "no";
-            currentChannel.Language = !String.IsNullOrEmpty(Channel.Language) ? Channel.Language : "no";
-            currentChannel.Link = rssChannelUrl;
-            currentChannel.Description = Channel.Description != null ? Channel.Description.Text : "no";
-            currentChannel.ImageSrc = Channel.ImageUrl != null ? Channel.ImageUrl.ToString() : "no";
-            currentChannel.PubDate = Channel.LastUpdatedTime.DateTime != new DateTime() ?
-                Channel.LastUpdatedTime.DateTime :
-                    Channel.Items.FirstOrDefault() != null ?
-                        Channel.Items.FirstOrDefault().PublishDate.DateTime : DateTime.Now;
-
+            currentChannel = RssParseHelper.ParseChannel(Channel, rssChannelUrl);   
             // Query executes in GetRssItemList()
             dataHelper.AddRssChannelInDb(currentChannel);
 
@@ -158,37 +150,13 @@ namespace ReadTheNews.Models
 
         private RssItem GetRssItem(SyndicationItem item)
         {
-            RssItem newRssItem = new RssItem();
-
-            newRssItem.Title = item.Title != null ? item.Title.Text : "no";
-            newRssItem.Description = item.Summary != null ? item.Summary.Text : "no";
-            newRssItem.Date = item.PublishDate.Date;
-            newRssItem.Link = !String.IsNullOrEmpty(item.Id) ? item.Id : "no";
-            newRssItem.ImageSrc = "no";
-
-            if (currentChannel == null)
-                return null;
-
-            newRssItem.RssChannel = currentChannel;
-
-            var categories = new List<RssCategory>(item.Categories.Count);
-
-            foreach (SyndicationCategory category in item.Categories)
-            {
-                categories.Add(new RssCategory { Name = category.Name });
-            }
-            categories = categories.Distinct(new RssCategoryEqualityComparer()).ToList();
-            foreach (RssCategory category in categories)
-            {
-                dataHelper.AddRssCategoryInDb(category);
-            }
-            newRssItem.RssCategories = categories;
+            
 
             dataHelper.AddRssItemInDb(newRssItem);
-            //DELETE!!!!!!
-            if (newRssItem.Title == "Православные отмечают Крещение Господне")
-                dataHelper.ExecuteQuery();
-            dataHelper.ExecuteQuery();
+            ////DELETE!!!!!!
+            //if (newRssItem.Title == "Православные отмечают Крещение Господне")
+            //    dataHelper.ExecuteQuery();
+            //dataHelper.ExecuteQuery();
             return newRssItem;
         }
 

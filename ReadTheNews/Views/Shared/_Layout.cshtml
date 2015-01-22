@@ -41,7 +41,7 @@
                             RTN
                         </div>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/">
                             <i class="fa fa-home"></i><span class="nav-label">Рекомендации</span>
                         </a>
@@ -61,7 +61,7 @@
                     <li>
                         <a href="#"><i class="fa fa-rss"></i><span class="nav-label">Мои RSS-каналы</span></a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#"><i class="fa fa-rss-square"></i><span class="nav-label">RSS-каналы</span></a>
                     </li>
                     <li>
@@ -102,5 +102,6 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.11.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

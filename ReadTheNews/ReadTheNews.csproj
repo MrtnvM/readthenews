@@ -332,6 +332,7 @@
     <Content Include="Views\Home\GetNews.cshtml" />
     <Content Include="Views\Home\ChannelNews.cshtml" />
     <Content Include="Views\Shared\ErrorMessage.cshtml" />
+    <Content Include="Views\Shared\NewsImage.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>

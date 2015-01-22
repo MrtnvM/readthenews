@@ -7,7 +7,7 @@
         {
             @Html.AntiForgeryToken()
                 <li>
-                    <a href="/Manage">@("Привет " + User.Identity.GetUserName() + "!").ToString()</a>
+                    <a href="/Manage">@("Привет " + User.Identity.Name + "!")</a>
                 </li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i>Выход</a></li>
         }

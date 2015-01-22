@@ -18,9 +18,9 @@
                 <h5><a href="@item.Link">@item.Title</a></h5>
             </div>
             <div class="ibox-content">
+                @Html.Partial("NewsImage", item)
                 <p>@item.Description</p>
                 <p>@item.Date</p>
-                <p>@item.ImageSrc</p>
                 <ul class="list-inline">
                     @{
                         Random r = new Random();

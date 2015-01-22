@@ -83,7 +83,7 @@ body {
 }
 
 .nav-header {
-    background: #0e9aef url(Images/new-header-profile.png);
+    background: #2f4050 url(Images/new-header-profile.png);
     padding: 3px 25px 22px 45px;
 }
 
@@ -271,8 +271,10 @@ text-input{
     margin-bottom: 25px;
     margin-top: 0;
     padding: 0;
+    padding-bottom: 15px;
     box-sizing: border-box;
-    background-color: #f3f3f4;
+    background-color: #fff;
+    box-shadow: 0  0 2px #676a6c;
 }
 
 .ibox-title {
@@ -303,4 +305,15 @@ text-input{
 
 .nav-header .logo strong {
 color: #DFE4ED;
+}
+
+.item-image{
+    float: left;
+    vertical-align:middle;
+    margin: 15px 15px 0px 0px;
+}
+
+.item-image img{
+    width:200px;
+    border: 1px solid #2f4050;
 }
