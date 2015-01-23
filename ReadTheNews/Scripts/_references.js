@@ -7,3 +7,6 @@
 /// <reference path="jquery-ui-1.11.2.min.js" />
 /// <reference path="npm.js" />
 /// <reference path="bootstrap.min.js" />
+/// <reference path="inspinia.js" />
+/// <reference path="jquery-2.1.1.js" />
+/// <reference path="jquery.metismenu.js" />

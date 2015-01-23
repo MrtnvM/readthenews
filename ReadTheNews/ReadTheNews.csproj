@@ -206,6 +206,7 @@
     <Content Include="Content\Images\readthenews-icon.jpg" />
     <Content Include="Content\Images\readthenews-logo.png" />
     <Content Include="Content\styles.css" />
+    <Content Include="Content\stylesInspinia.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -282,11 +283,14 @@
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\inspinia.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.min.js" />
+    <Content Include="Scripts\jquery.metisMenu.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
