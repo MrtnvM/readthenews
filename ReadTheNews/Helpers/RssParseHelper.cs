@@ -11,8 +11,9 @@ namespace ReadTheNews.Helpers
     public static class RssParseHelper
     {
         static Regex imgSrc = new Regex("src\\s*=\\s*(?:[\"'](?<1>[^\"']*)[\"']|(?<1>\\S+))");
-        static Regex imgTag = new Regex(@"<img.+>");
-        static Regex aTag = new Regex(@"<a.+>");
+        static Regex tag = new Regex(@"<[^>]*>");
+        static Regex aTag = new Regex(@"<a.+>(.+)</a>");
+        static Regex image = new Regex(@".+\.(gif|png|jpg|jpeg)$");
         static RssDataHelper dataHelper = new RssDataHelper();
 
         public static RssChannel ParseChannel(SyndicationFeed Channel, string rssChannelUrl)
@@ -33,24 +34,45 @@ namespace ReadTheNews.Helpers
 
         public static RssItem ParseItem(SyndicationItem item, RssChannel currentChannel)
         {
+            if (currentChannel == null)
+                return null;
+
             RssItem newRssItem = new RssItem();
 
             newRssItem.Title = item.Title != null ? item.Title.Text : "no";
+
             newRssItem.Description = item.Summary != null ? item.Summary.Text : "no";
-            aTag.Replace(newRssItem.Description, "");
+            Match aText = aTag.Match(newRssItem.Description);
+            if (aText.Success)
+            {
+                aTag.Replace(newRssItem.Description, aText.Groups[1].ToString());
+            }
+
             newRssItem.Date = item.PublishDate.Date;
-            newRssItem.Link = !String.IsNullOrEmpty(item.Id) ? item.Id : "no";
+            newRssItem.Link = !String.IsNullOrEmpty(item.Id) ? item.Id : item.Links[0].Uri.ToString();
+
             Match src = imgSrc.Match(newRssItem.Description);
             if (src.Success)
             {
-                newRssItem.ImageSrc = src.Groups[1].ToString();
-                if (String.IsNullOrEmpty(newRssItem.ImageSrc))
-                    newRssItem.ImageSrc = "no";
+                newRssItem.ImageSrc = src.Groups[1].ToString();                
             }
-            newRssItem.Description = imgTag.Replace(newRssItem.Description, "");
-
-            if (currentChannel == null)
-                return null;
+            newRssItem.Description = tag.Replace(newRssItem.Description, "");
+            if (String.IsNullOrEmpty(newRssItem.ImageSrc) && item.Links != null)
+            {
+                foreach (SyndicationLink link in item.Links)
+                {
+                    string url = link.Uri.ToString();
+                    if (image.IsMatch(url))
+                    {
+                        newRssItem.ImageSrc = url;
+                        break;
+                    }
+                }
+            }
+            if (String.IsNullOrEmpty(newRssItem.ImageSrc))
+                newRssItem.ImageSrc = currentChannel.ImageSrc;
+            else
+                newRssItem.ImageSrc = "no";            
 
             newRssItem.RssChannel = currentChannel;
 

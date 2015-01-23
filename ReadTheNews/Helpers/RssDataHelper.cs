@@ -98,8 +98,6 @@ namespace ReadTheNews.Helpers
                 __sql += " EXECUTE [dbo].[AddRssItemRssCategories] " + parameterTitle + ", "
                                                                      + parameterCategoryName + "; ";
             }
-
-            //this.ExecuteQuery();
         }
 
         public void UpdateRssChannelPubDate(RssChannel channel)
@@ -127,11 +125,16 @@ namespace ReadTheNews.Helpers
             int id = channel.Id;
             string parameterChannelId = "@parameter" + __sqlParameters.Count;
             SqlParameter channelId = new SqlParameter(parameterChannelId, id);
+            __sqlParameters.Add(channelId);
+
+            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
+            string parameterYesterdayDate = "@parameter" + __sqlParameters.Count;
+            SqlParameter yesterdayDate = new SqlParameter(parameterYesterdayDate, yesterday);
+            __sqlParameters.Add(yesterdayDate);
 
             __sql += " DELETE FROM [dbo].[RssItems] " +
-                         " WHERE [dbo].[RssItems].[RssChannelId] = " + parameterChannelId + ";";
-
-            __sqlParameters.Add(channelId);
+                         " WHERE [RssChannelId] = " + parameterChannelId + " AND " +
+                               " [Date] < " + parameterYesterdayDate + " ;";
         }
     }
 }

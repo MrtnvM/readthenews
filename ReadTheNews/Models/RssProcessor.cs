@@ -20,7 +20,7 @@ namespace ReadTheNews.Models
         private RssChannel currentChannel;
         private string rssChannelUrl;
         private bool IsNewContent;
-
+        private RssItem _lastRssItemInDb;
         
 
         public static ILog Logger { get; private set; }
@@ -78,12 +78,13 @@ namespace ReadTheNews.Models
         public RssChannel GetLatestNews()
         {
             if (!this.IsChannelDownload)
-            {
                 throw new ChannelNotDownloadException();
-            }
 
             if (currentChannel == null)
+            {
                 this.GetRssChannel();
+                return currentChannel;
+            }
 
             DateTime latestUpdate = new DateTime();
             if (this.Channel.LastUpdatedTime.DateTime != new DateTime())
@@ -116,22 +117,28 @@ namespace ReadTheNews.Models
             currentChannel.RssItems = this.GetRssItemList();
         }
 
-        private List<RssItem> GetRssItemList(bool downloadByForce = false)
+        private List<RssItem> GetRssItemList()
         {
             if (Channel == null || currentChannel == null)
                 throw new ChannelNotDownloadException();
-            if (!CheckNewContent(Channel.Items.First()) && currentChannel.RssItems.Count > 0 && !downloadByForce)
+            if (!CheckNewContent(Channel.Items.First()) && currentChannel.RssItems.Count > 0)
                 return currentChannel.RssItems.ToList();
 
             var rssItems = new List<RssItem>(Channel.Items.Count());
-            DateTime yesterday = DateTime.Today.AddDays(-1);
+            DateTime yesterday = DateTime.Today.AddDays(-1).Date;
             foreach (SyndicationItem item in Channel.Items)
             {
-                RssItem rssItem = GetRssItem(item);
-                if (rssItem.Date < yesterday)
+                if (_lastRssItemInDb != null && item.Title.Text == _lastRssItemInDb.Title)
                     break;
+
+                if (item.PublishDate < yesterday)
+                    break;
+
+                RssItem rssItem = GetRssItem(item);                
+                
                 if (rssItem != null)
                     rssItems.Add(rssItem);
+
                 if (dataHelper.CountOfSqlParameters > 2000)
                     dataHelper.ExecuteQuery();
             }
@@ -141,22 +148,25 @@ namespace ReadTheNews.Models
                     Channel.Items.FirstOrDefault() != null ?
                         Channel.Items.FirstOrDefault().PublishDate.DateTime : DateTime.Now;
 
+            List<RssItem> rssItemsInDb = (from i in db.RssItems.Include("RssCategories").AsNoTracking()
+                                          where i.RssChannelId == currentChannel.Id
+                                          orderby i.Date descending
+                                          select i).ToList();
+            //rssItemsInDb.ForEach(i => i.ImageSrc = currentChannel.ImageSrc);
             dataHelper.UpdateRssChannelPubDate(currentChannel);
 
             dataHelper.ExecuteQuery();
-
+            
+            rssItems.AddRange(rssItemsInDb);
             return rssItems;
         }
 
         private RssItem GetRssItem(SyndicationItem item)
         {
-            
+            RssItem newRssItem = RssParseHelper.ParseItem(item, currentChannel);
 
             dataHelper.AddRssItemInDb(newRssItem);
-            ////DELETE!!!!!!
-            //if (newRssItem.Title == "Православные отмечают Крещение Господне")
-            //    dataHelper.ExecuteQuery();
-            //dataHelper.ExecuteQuery();
+
             return newRssItem;
         }
 
@@ -167,8 +177,13 @@ namespace ReadTheNews.Models
                 this.IsNewContent = false;
                 return this.IsNewContent;
             }
-            RssItem tempItem = db.RssItems.AsNoTracking().Where(i => i.Title == item.Title.Text).SingleOrDefault();
-            if (tempItem != null)
+            SqlParameter channelId = new SqlParameter("@channelId", currentChannel.Id);
+            string sql = " SELECT TOP(1) * " +
+                         " FROM [RssItems] " +
+                         " WHERE [RssChannelId] = @channelId; ";
+            _lastRssItemInDb = db.Database.SqlQuery<RssItem>(sql, channelId).FirstOrDefault();
+
+            if (_lastRssItemInDb != null && _lastRssItemInDb.Title == item.Title.Text)
             {
                 this.IsNewContent = false;
                 return this.IsNewContent;

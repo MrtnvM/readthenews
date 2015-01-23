@@ -12,18 +12,21 @@ namespace ReadTheNews.Controllers
     {
         private RssContext db = new RssContext();
 
-        public ActionResult Index()
+        public ActionResult RssChannels()
         {
             ViewBag.RssChannels = db.RssChannels.ToList();
             return View();
         }
 
-        public ActionResult GetNews(int id)
+        public ActionResult GetNews(int? id)
         {
+            if (id == null)
+                return Redirect("RssChannels");
+
             RssChannel channel;
             RssProcessor processor;
             try {
-                processor = RssProcessor.GetRssProcessor(id);
+                processor = RssProcessor.GetRssProcessor(Int32.Parse(id.ToString()));
                 channel = processor.GetLatestNews();
             }
             catch(Exception ex)

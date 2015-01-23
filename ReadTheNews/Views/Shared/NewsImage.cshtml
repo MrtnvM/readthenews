@@ -1,16 +1,9 @@
 ﻿@using ReadTheNews.Models;
 @model RssItem
 
-@{
-    string imageSrc = Model.ImageSrc;
-    if (String.IsNullOrEmpty(imageSrc)) { 
-        imageSrc = Model.RssChannel.ImageSrc;
-    }
-}
-
-@if (!String.IsNullOrEmpty(imageSrc))
+@if (Model.ImageSrc != "no" && !String.IsNullOrEmpty(Model.ImageSrc))
 {
     <figure class="item-image">
-        <img src="@imageSrc" alt="@Model.Title" />
+        <img src="@Model.ImageSrc" alt="@Model.Title" />
     </figure>
 }

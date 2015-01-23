@@ -13,7 +13,7 @@ namespace ReadTheNews.Models
 
         [Required]
         [Display(Name="Заголовок")]
-        [MaxLength(120)]
+        [MaxLength(150)]
         public string Title { get; set; }
 
         [Required]
@@ -23,7 +23,7 @@ namespace ReadTheNews.Models
 
         [Required]
         [Display(Name="Описание")]
-        [MaxLength(500)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         [Required]

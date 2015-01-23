@@ -296,7 +296,7 @@ text-input{
 .ibox-content {
     background-color: #ffffff;
     color: inherit;
-    padding: 15px 20px 20px 20px;
+    padding: 15px 20px 0px 20px;
     border-color: #e7eaec;
     border-image: none;
     border-style: solid solid none;
@@ -310,10 +310,14 @@ color: #DFE4ED;
 .item-image{
     float: left;
     vertical-align:middle;
-    margin: 15px 15px 0px 0px;
+    margin: 15px 15px 15px 0px;
 }
 
 .item-image img{
-    width:200px;
+    width:150px;
     border: 1px solid #2f4050;
+}
+
+.ibox .row{
+    margin: 0;
 }
