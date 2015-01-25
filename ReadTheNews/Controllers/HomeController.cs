@@ -64,6 +64,11 @@ namespace ReadTheNews.Controllers
             return View("ErrorMessage");
         }
 
+        public ActionResult Login()
+        {
+            return View("Login");
+        }
+
         private void GetUserId()
         {
             if (String.IsNullOrEmpty(userId))

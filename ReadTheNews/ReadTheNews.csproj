@@ -201,10 +201,12 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\bg.png" />
     <Content Include="Content\Images\header-bg.png" />
+    <Content Include="Content\Images\login-bg.jpg" />
     <Content Include="Content\Images\new-header-profile.png" />
     <Content Include="Content\Images\new-news-logo.png" />
     <Content Include="Content\Images\readthenews-icon.jpg" />
     <Content Include="Content\Images\readthenews-logo.png" />
+    <Content Include="Content\Images\register-bg.jpg" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\stylesInspinia.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -338,6 +340,7 @@
     <Content Include="Views\Home\ChannelNews.cshtml" />
     <Content Include="Views\Shared\ErrorMessage.cshtml" />
     <Content Include="Views\Shared\NewsImage.cshtml" />
+    <Content Include="Views\Home\FutureLogin.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
