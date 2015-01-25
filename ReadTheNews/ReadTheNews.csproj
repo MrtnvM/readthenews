@@ -171,6 +171,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RssNewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -285,6 +286,7 @@
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\button-actions.js" />
     <Content Include="Scripts\inspinia.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -341,10 +343,12 @@
     <Content Include="Views\Shared\ErrorMessage.cshtml" />
     <Content Include="Views\Shared\NewsImage.cshtml" />
     <Content Include="Views\Home\FutureLogin.cshtml" />
+    <Content Include="Views\Home\MyFavoriteNews.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\News\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -6,21 +6,59 @@ using System.Web.Mvc;
 using ReadTheNews.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using ReadTheNews.Helpers;
 
 namespace ReadTheNews.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private RssContext db = new RssContext();
-        string userId;
+        string _userId;
 
+        public ActionResult Index()
+        {
+            return Redirect("RssChannels");
+        }
+
+        [AllowAnonymous]
         public ActionResult RssChannels()
         {
-            ViewBag.RssChannels = db.RssChannels.ToList();
+            try
+            {
+                ViewBag.RssChannels = db.RssChannels.ToList();
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return Redirect("Error");
+            }
             return View();
         }
 
-        public ActionResult GetNews(int? id)
+        public ActionResult MyFavoriteNews()
+        {
+            this.GetUserId();
+
+            List<RssItem> favoriteNews;
+            using (var dataHelper = new RssDataHelper())
+            {
+                try
+                {
+                    favoriteNews = dataHelper.GetFavoriteRssNews(_userId);
+                    if (favoriteNews == null)
+                        throw new Exception("Не удалось загрузить избрвнные новости. Попробуйте еще раз позднее");
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return Redirect("Error");
+                }
+                return View(favoriteNews);
+            }
+        }
+
+        public ActionResult Channel(int? id)
         {
             if (id == null)
                 return Redirect("RssChannels");
@@ -30,7 +68,7 @@ namespace ReadTheNews.Controllers
             try {
                 processor = RssProcessor.GetRssProcessor(Int32.Parse(id.ToString()));
                 this.GetUserId();
-                channel = processor.GetLatestNews(userId);
+                channel = processor.GetLatestNews(_userId);
             }
             catch(Exception ex)
             {
@@ -52,9 +90,9 @@ namespace ReadTheNews.Controllers
             }
             if (!processor.IsChannelDownload)
                 return RedirectToAction("Error");
-
+            
             this.GetUserId();
-            RssChannel channel = processor.GetLatestNews(userId);
+            RssChannel channel = processor.GetLatestNews(_userId);
 
             return View(channel);
         }
@@ -64,15 +102,28 @@ namespace ReadTheNews.Controllers
             return View("ErrorMessage");
         }
 
-        public ActionResult Login()
+        public ActionResult AddNewFavoriteRssNews(int? id)
         {
-            return View("Login");
+            if (id == null)
+            {
+                TempData["Error"] = "Некоректный идентификатор при добавлении новости в избранное";
+                return Redirect("Error");
+            }
+            bool temp;
+            using (var dataHelper = new RssDataHelper())
+            {
+                this.GetUserId();
+                int rssNewsId = Int32.Parse(id.ToString());
+                temp = dataHelper.AddRssNewsToFavorite(rssNewsId, _userId);
+            }
+            var result = new { result = temp };
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         private void GetUserId()
         {
-            if (String.IsNullOrEmpty(userId))
-                userId = User.Identity.GetUserId();
+            if (String.IsNullOrEmpty(_userId))
+                _userId = User.Identity.GetUserId();
         }
     }
 }

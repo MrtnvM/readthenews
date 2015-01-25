@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="Martynov Maxim" name="author" />
     <meta content="Read The News - most actual news for you" name="description" />
-    <title>@ViewBag.Title - Read The News</title>
+    <title>@ViewBag.Title | Read The News</title>
         
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -42,34 +42,34 @@
                             <a href="/">RTN</a>
                         </div>
                     </li>
-                    <li>
+                    <li class="@ViewBag.Active">
                         <a href="/">
                             <i class="fa fa-home"></i><span class="nav-label">Рекомендации</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="@ViewBag.Active">
                         <a href="#"><i class="fa fa-clock-o"></i><span class="nav-label">Прочитать позже</span></a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-heart"></i><span class="nav-label">Избранные новости</span></a>
+                    <li class="@ViewBag.Active">
+                        <a href="/Home/MyFavoriteNews"><i class="fa fa-heart"></i><span class="nav-label">Избранные новости</span></a>
                     </li>
-                    <li>
+                    <li class="@ViewBag.Active">
                         <a href="widgets.html"><i class="fa fa-star"></i><span class="nav-label">Избранные каналы</span></a>
                     </li>
-                    <li>
+                    <li class="@ViewBag.Active">
                         <a href="#"><i class="fa fa-newspaper-o"></i><span class="nav-label">Мои новости</span></a>
                     </li>
-                    <li>
+                    <li class="@ViewBag.Active">
                         <a href="#"><i class="fa fa-rss"></i><span class="nav-label">Мои RSS-каналы</span></a>
                     </li>
-                    <li class="active">
+                    <li class="@ViewBag.Active">
                         <a href="#"><i class="fa fa-rss-square"></i><span class="nav-label">RSS-каналы</span></a>
                     </li>
-                    <li>
+                    <li class="@ViewBag.Active">
                         <a href="#"><i class="fa fa-send-o"></i><span class="nav-label">E-mail рассылка</span></a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cog"></i><span class="nav-label">Мои настройки</span></a>                      
+                    <li class="@ViewBag.Active">
+                        <a href="#"><i class="fa fa-cog"></i><span class="nav-label">Мои настройки</span></a>
                     </li>
                 </ul>
 
@@ -106,6 +106,7 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.metisMenu.js"></script>
     <script src="~/Scripts/inspinia.js"></script>
+    <script src="~/Scripts/button-actions.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

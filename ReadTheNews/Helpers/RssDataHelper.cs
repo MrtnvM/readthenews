@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using ReadTheNews.Models;
 using System.Data.SqlClient;
+using log4net;
 
 namespace ReadTheNews.Helpers
 {
-    public class RssDataHelper
+    public class RssDataHelper : IDisposable
     {
         private RssContext db;
         private string __sql;
         private List<SqlParameter> __sqlParameters;
+        ILog logger = LogManager.GetLogger(typeof(RssDataHelper));
 
         public int CountOfSqlParameters
         {
@@ -152,6 +154,55 @@ namespace ReadTheNews.Helpers
             List<RssItem> news = db.RssItems.SqlQuery(sql, parameterChannelId, parameterUserId).ToList();
             
             return news;
+        }
+
+        public bool AddRssNewsToFavorite(int rssNewsId, string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Невозвожно добавить в список избранного новость от анонимного пользователя");
+                if (rssNewsId <= 0)
+                    throw new Exception("Некоректный идентификатор новости при добавлении в избранное");
+
+                var parameterNewsId = new SqlParameter("@newsId", rssNewsId);
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " INSERT INTO [dbo].[FavoriteRssNews]([RssItemId], [UserId]) " +
+                             " VALUES (@newsId, @userId); ";
+                db.Database.ExecuteSqlCommand(sql, parameterNewsId, parameterUserId);
+                return true;
+            } catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return false;
+            }
+        }
+
+        public List<RssItem> GetFavoriteRssNews(string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Невозвожно получить список избранного анонимного пользователя");
+
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT * FROM [dbo].[RssItems]  " +
+                             " WHERE [Id] IN ( SELECT [RssItemId] " +
+                                             " FROM [dbo].[FavoriteRssNews] " +
+                                             " WHERE [UserId] = @userId) ";
+                List<RssItem> favoriteNews = db.Database.SqlQuery<RssItem>(sql, parameterUserId).ToList();
+                return favoriteNews;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
+        }
+
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

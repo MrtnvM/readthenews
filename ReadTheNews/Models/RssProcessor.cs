@@ -124,7 +124,6 @@ namespace ReadTheNews.Models
             if (!CheckNewContent(Channel.Items.First()) && currentChannel.RssItems.Count > 0)
                 return currentChannel.RssItems.ToList();
 
-            var rssItems = new List<RssItem>(Channel.Items.Count());
             DateTime yesterday = DateTime.Today.AddDays(-1).Date;
             foreach (SyndicationItem item in Channel.Items)
             {
@@ -134,10 +133,7 @@ namespace ReadTheNews.Models
                 if (item.PublishDate < yesterday)
                     break;
 
-                RssItem rssItem = GetRssItem(item);                
-                
-                if (rssItem != null)
-                    rssItems.Add(rssItem);
+                this.GetRssItem(item);                
 
                 if (dataHelper.CountOfSqlParameters > 2000)
                     dataHelper.ExecuteQuery();
@@ -147,15 +143,14 @@ namespace ReadTheNews.Models
                 Channel.LastUpdatedTime.DateTime :
                     Channel.Items.FirstOrDefault() != null ?
                         Channel.Items.FirstOrDefault().PublishDate.DateTime : DateTime.Now;
-            
-            List<RssItem> rssItemsInDb = dataHelper.GetFiltredNews(currentChannel.Id, userId);
-
+           
             dataHelper.UpdateRssChannelPubDate(currentChannel);
 
             dataHelper.ExecuteQuery();
-            
-            rssItems.AddRange(rssItemsInDb);
-            return rssItems;
+
+            List<RssItem> rssItemsInDb = dataHelper.GetFiltredNews(currentChannel.Id, userId);
+
+            return rssItemsInDb;
         }
 
         private RssItem GetRssItem(SyndicationItem item)

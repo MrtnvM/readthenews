@@ -24,24 +24,29 @@ h3,h4,h5 {
   margin-top: 5px;
   font-weight: 600;
 }
-.nav > li > a {
+.nav > li > a{
   color: #a7b1c2;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
 }
-.nav.navbar-right > li > a {
+.nav > form > li a, .navbar-top-links li a, #registerLink{
+    color:#999c9e;
+    font-weight: 600;
+    padding: 20px 10px 21px 10px;
+}
+.nav.navbar-right > li a{
   color: #999c9e;
 }
 .nav > li.active > a {
   color: #ffffff;
 }
-.navbar-default .nav > li a:hover,
-.navbar-default .nav > li a:focus {
+.navbar-default .nav > li a:hover,.navbar-default .nav > form li a:hover,
+.navbar-default .nav > li a:focus,.navbar-default .nav > form li a:focus {
   background-color: #293846;
   color: white;
 }
-.nav.navbar-top-links > li a:hover,
-.nav.navbar-top-links > li a:focus {
+.nav.navbar-top-links li a:hover,
+.nav.navbar-top-links li a:focus {
   background-color: #ececec;
 }
 .nav > li > a i {
@@ -56,13 +61,14 @@ h3,h4,h5 {
 }
 .navbar-top-links li {
   display: inline-block;
+  line-height: 60px;
 }
 .navbar-top-links li:last-child {
   margin-right: 40px;
 }
 .navbar-top-links li a{
-  padding: 20px 10px;
-  min-height: 50px;
+  padding: 20px 0px;
+  height: 60px;
 }
 .dropdown-menu {
   border: medium none;
@@ -2627,4 +2633,11 @@ ul.clear-list:first-child {
 
 #page-wrapper footer{
     margin-top: 20px;
+}
+
+#registerLink{
+    color:#999c9e;
+    font-weight: 600;
+    padding: 20px 10px 21px 10px;
+    line-height:60px;
 }

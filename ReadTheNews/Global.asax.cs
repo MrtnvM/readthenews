@@ -13,8 +13,8 @@ namespace ReadTheNews
     {
         protected void Application_Start()
         {
-            EFloggerFor6.Initialize();
-            EFloggerFor6.EnableDecompiling();
+            //EFloggerFor6.Initialize();
+            //EFloggerFor6.EnableDecompiling();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

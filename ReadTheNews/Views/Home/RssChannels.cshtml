@@ -21,7 +21,7 @@
         <ul class="list">
             @foreach (RssChannel channel in ViewBag.RssChannels)
             {
-                <li><a href="/Home/GetNews/@channel.Id" class="list-item">@channel.Title</a></li>
+                <li><a href="/Home/Channel/@channel.Id" class="list-item">@channel.Title</a></li>
             }
         </ul>
     </div>
