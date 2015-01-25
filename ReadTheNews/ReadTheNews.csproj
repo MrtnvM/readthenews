@@ -338,7 +338,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\GetNews.cshtml" />
+    <Content Include="Views\Home\Channel.cshtml" />
     <Content Include="Views\Home\ChannelNews.cshtml" />
     <Content Include="Views\Shared\ErrorMessage.cshtml" />
     <Content Include="Views\Shared\NewsImage.cshtml" />

@@ -2,11 +2,12 @@
 @model List<RssItem>
 @{
     ViewBag.Title = "Мои избранные новости";
-    ViewBag.Active = "active";
+    ViewBag.MyFavoriteNewsActive = "active";
 }
 
 @foreach (RssItem item in Model)
 {
+    <hr />
     <div class="col-md-9 gray-bg">
         <div class="ibox">
             <div class="ibox-title">

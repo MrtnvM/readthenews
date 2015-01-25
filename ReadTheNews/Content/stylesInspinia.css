@@ -2614,6 +2614,20 @@ ul.clear-list:first-child {
     padding: 40px;
 }
 
+.login .login-content .form-control{
+    color: #2f4050;
+}
+
+.login .login-content .checkbox input{
+    margin-left: -15px;
+}
+.login .login-content .checkbox label{
+    padding-left: 10px;
+}
+.login .login-content .checkbox{
+    margin-bottom: 20px;
+}
+
 @media (max-width: 767px) {
     .login .login-header, .login-content, .login {
         width: 100% !important;
@@ -2633,11 +2647,4 @@ ul.clear-list:first-child {
 
 #page-wrapper footer{
     margin-top: 20px;
-}
-
-#registerLink{
-    color:#999c9e;
-    font-weight: 600;
-    padding: 20px 10px 21px 10px;
-    line-height:60px;
 }
