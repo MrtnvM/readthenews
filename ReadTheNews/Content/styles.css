@@ -138,6 +138,16 @@ text-input{
     height: 48px;
 }
 
+.ibox-title h5{
+}
+
+.ibox > .ibox-title button{
+    padding: 0px;
+    border-radius: 3px;
+    margin-left: 0px;
+    font-size: 22px;
+}
+
 .ibox-content {
     background-color: #ffffff;
     color: inherit;
@@ -146,6 +156,7 @@ text-input{
     border-image: none;
     border-style: solid solid none;
     border-width: 1px 0px;
+    text-align:justify;
 }
 
 .nav-header .logo strong {
@@ -165,4 +176,33 @@ color: #DFE4ED;
 
 .ibox .row{
     margin: 0;
+}
+.news-buttons{
+    padding-right: 0;
+}
+
+.news-buttons a{
+    float:right !important;
+}
+
+.news-buttons a:first-child{
+border-top-right-radius: 3px !important;
+border-bottom-right-radius: 3px !important;
+}
+
+.news-buttons a:last-child{
+    border-top-left-radius: 3px !important;
+    border-bottom-left-radius: 3px !important;
+}
+
+.news-buttons a:not(:first-child), .news-buttons a:not(:last-child){
+    border-radius: 0;
+}
+
+.news-buttons a:not(:first-child):not(:last-child){
+    border-right: none;
+}
+
+.news-buttons a.remove:hover{
+    background-color: #f63434;
 }

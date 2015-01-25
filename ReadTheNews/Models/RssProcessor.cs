@@ -75,14 +75,14 @@ namespace ReadTheNews.Models
             return processor;
         }
 
-        public RssChannel GetLatestNews()
+        public RssChannel GetLatestNews(string userId)
         {
             if (!this.IsChannelDownload)
                 throw new ChannelNotDownloadException();
 
             if (currentChannel == null)
             {
-                this.GetRssChannel();
+                this.GetRssChannel(userId);
                 return currentChannel;
             }
 
@@ -98,14 +98,14 @@ namespace ReadTheNews.Models
 
             dataHelper.DeleteOldRssItems(currentChannel);
 
-            currentChannel.RssItems = this.GetRssItemList();
+            currentChannel.RssItems = this.GetRssItemList(userId);
 
             return currentChannel;
         }
 
 
 
-        private void GetRssChannel()
+        private void GetRssChannel(string userId)
         {
             if (!this.IsChannelDownload)
                 throw new ChannelNotDownloadException();
@@ -114,10 +114,10 @@ namespace ReadTheNews.Models
             // Query executes in GetRssItemList()
             dataHelper.AddRssChannelInDb(currentChannel);
 
-            currentChannel.RssItems = this.GetRssItemList();
+            currentChannel.RssItems = this.GetRssItemList(userId);
         }
 
-        private List<RssItem> GetRssItemList()
+        private List<RssItem> GetRssItemList(string userId)
         {
             if (Channel == null || currentChannel == null)
                 throw new ChannelNotDownloadException();
@@ -147,12 +147,9 @@ namespace ReadTheNews.Models
                 Channel.LastUpdatedTime.DateTime :
                     Channel.Items.FirstOrDefault() != null ?
                         Channel.Items.FirstOrDefault().PublishDate.DateTime : DateTime.Now;
+            
+            List<RssItem> rssItemsInDb = dataHelper.GetFiltredNews(currentChannel.Id, userId);
 
-            List<RssItem> rssItemsInDb = (from i in db.RssItems.Include("RssCategories").AsNoTracking()
-                                          where i.RssChannelId == currentChannel.Id
-                                          orderby i.Date descending
-                                          select i).ToList();
-            //rssItemsInDb.ForEach(i => i.ImageSrc = currentChannel.ImageSrc);
             dataHelper.UpdateRssChannelPubDate(currentChannel);
 
             dataHelper.ExecuteQuery();

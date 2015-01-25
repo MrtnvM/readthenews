@@ -136,5 +136,22 @@ namespace ReadTheNews.Helpers
                          " WHERE [RssChannelId] = " + parameterChannelId + " AND " +
                                " [Date] < " + parameterYesterdayDate + " ;";
         }
+
+        public List<RssItem> GetFiltredNews(int channelId, string userId)
+        {
+            if (channelId == 0)
+                throw new Exception("Канал не был загружен");
+
+            if (String.IsNullOrEmpty(userId))
+                throw new Exception("Пользователь не авторизован");
+
+            SqlParameter parameterChannelId = new SqlParameter("@channelId", channelId);
+            SqlParameter parameterUserId = new SqlParameter("@userId", userId);
+            string sql = " SELECT * FROM [dbo].GetFiltredNews(@channelId, @userId); ";
+
+            List<RssItem> news = db.RssItems.SqlQuery(sql, parameterChannelId, parameterUserId).ToList();
+            
+            return news;
+        }
     }
 }

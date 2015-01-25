@@ -40,4 +40,10 @@ namespace ReadTheNews.Models
 
         public virtual ICollection<RssCategory> RssCategories { get; set; }
     }
+
+    public class DeletedRssItemsByUser
+    {
+        public int RssItemId { get; set; }
+        public string UserId { get; set; }
+    }
 }

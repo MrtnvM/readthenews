@@ -12,50 +12,26 @@
 
 @foreach (RssItem item in Model.RssItems)
 {
-    <div class="col-lg-10 gray-bg">
+    <div class="col-md-9 gray-bg">
         <div class="ibox">
             <div class="ibox-title">
-                <h5><a href="@item.Link">@item.Title</a></h5>
+                <div class="col-md-10">
+                    <h5>
+                        <a href="@item.Link">@item.Title</a>
+                    </h5>
+                </div>
+                <div class="btn-group col-md-2 news-buttons">
+                    <a href="#" class="btn btn-xs btn-primary btn-outline dark remove"><i class="fa fa-remove"></i></a>                    
+                    <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-heart-o"></i></a>
+                    <a href="#" class="btn btn-xs btn-primary btn-outline dark "><i class="fa fa-clock-o"></i></a>
+                </div>
             </div>
             <div class="ibox-content">
                 <div class="row">
                     @Html.Partial("NewsImage", item)
                     <p>@item.Description</p>
                 </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <ul class="list-inline">
-                            @{
-    Random r = new Random();
-                            }
-                            @foreach (RssCategory category in item.RssCategories)
-                            {
-                                string classes = "label label-warning";
-                                switch (r.Next(1, 5))
-                                {
-                                    case 1:
-                                        classes = "label label-warning";
-                                        break;
-                                    case 2:
-                                        classes = "label label-info";
-                                        break;
-                                    case 3:
-                                        classes = "label label-success";
-                                        break;
-                                    case 4:
-                                        classes = "label label-primary";
-                                        break;
-                                }
-
-                                <li class="@classes">@category.Name</li>
-                            }
-
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <p>@item.Date</p>
-                    </div>
-                </div>
+                    <p style="text-align:right">Опубликовано: <strong>@item.Date.ToLongDateString()</strong></p>
             </div>
         </div>
     </div>

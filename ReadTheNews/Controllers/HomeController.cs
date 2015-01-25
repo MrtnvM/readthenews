@@ -5,12 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using ReadTheNews.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace ReadTheNews.Controllers
 {
     public class HomeController : Controller
     {
         private RssContext db = new RssContext();
+        string userId;
 
         public ActionResult RssChannels()
         {
@@ -27,7 +29,8 @@ namespace ReadTheNews.Controllers
             RssProcessor processor;
             try {
                 processor = RssProcessor.GetRssProcessor(Int32.Parse(id.ToString()));
-                channel = processor.GetLatestNews();
+                this.GetUserId();
+                channel = processor.GetLatestNews(userId);
             }
             catch(Exception ex)
             {
@@ -40,11 +43,18 @@ namespace ReadTheNews.Controllers
         [HttpPost]
         public ActionResult GetNews(string url)
         {
-            RssProcessor processor = RssProcessor.GetRssProcessor(url);
+            RssProcessor processor;
+            try {
+                processor = RssProcessor.GetRssProcessor(url);
+            } catch (Exception ex) {
+                TempData["Error"] = ex.Message;
+                return Redirect("Error");
+            }
             if (!processor.IsChannelDownload)
                 return RedirectToAction("Error");
 
-            RssChannel channel = processor.GetLatestNews();
+            this.GetUserId();
+            RssChannel channel = processor.GetLatestNews(userId);
 
             return View(channel);
         }
@@ -52,6 +62,12 @@ namespace ReadTheNews.Controllers
         public ActionResult Error()
         {
             return View("ErrorMessage");
+        }
+
+        private void GetUserId()
+        {
+            if (String.IsNullOrEmpty(userId))
+                userId = User.Identity.GetUserId();
         }
     }
 }

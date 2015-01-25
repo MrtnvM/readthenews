@@ -7,9 +7,9 @@
         {
             @Html.AntiForgeryToken()
                 <li>
-                    <a href="/Manage">@("Привет " + User.Identity.Name + "!")</a>
+                    <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
                 </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i>Выход</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()" id="loginLink"><i class="fa fa-sign-out"></i>Выход</a></li>
         }
     }
     else
