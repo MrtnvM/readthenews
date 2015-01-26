@@ -200,6 +200,7 @@
     <Content Include="Content\font-awesome-4.2.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.2.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\404-killed-kenny.png" />
     <Content Include="Content\Images\bg.png" />
     <Content Include="Content\Images\header-bg.png" />
     <Content Include="Content\Images\login-bg.jpg" />
@@ -208,6 +209,7 @@
     <Content Include="Content\Images\readthenews-icon.jpg" />
     <Content Include="Content\Images\readthenews-logo.png" />
     <Content Include="Content\Images\register-bg.jpg" />
+    <Content Include="Content\Images\this-is-not-the-page-youre-looking-for.png" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\stylesInspinia.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -344,6 +346,7 @@
     <Content Include="Views\Shared\NewsImage.cshtml" />
     <Content Include="Views\Home\FutureLogin.cshtml" />
     <Content Include="Views\Home\MyFavoriteNews.cshtml" />
+    <Content Include="Views\Shared\SingleNews.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>

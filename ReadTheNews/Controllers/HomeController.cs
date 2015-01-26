@@ -31,7 +31,7 @@ namespace ReadTheNews.Controllers
             catch (Exception ex)
             {
                 TempData["Error"] = ex.Message;
-                return Redirect("Error");
+                return RedirectToRoute(new { controller = "Home", action = "Error" });
             }
             return View();
         }
@@ -115,6 +115,24 @@ namespace ReadTheNews.Controllers
                 this.GetUserId();
                 int rssNewsId = Int32.Parse(id.ToString());
                 temp = dataHelper.AddRssNewsToFavorite(rssNewsId, _userId);
+            }
+            var result = new { result = temp };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DeleteNewsFromUserNewsList(int? id)
+        {
+            if (id == null)
+            {
+                TempData["Error"] = "Некоректный идентификатор при удалении новости из списка новостей";
+                return Redirect("Error");
+            }
+            bool temp;
+            using (var dataHelper = new RssDataHelper())
+            {
+                this.GetUserId();
+                int rssNewsId = Int32.Parse(id.ToString());
+                temp = dataHelper.DeleteRssNewsFromUserNewsList(rssNewsId, _userId);
             }
             var result = new { result = temp };
             return Json(result, JsonRequestBehavior.AllowGet);

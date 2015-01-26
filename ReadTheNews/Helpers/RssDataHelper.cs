@@ -200,6 +200,29 @@ namespace ReadTheNews.Helpers
             }
         }
 
+        public bool DeleteRssNewsFromUserNewsList(int rssNewsId, string userId)
+        {
+            try
+            {
+                if (rssNewsId <= 0)
+                    throw new Exception("Некоректный идентификатор новости при ее удалении");
+                if (userId == null)
+                    throw new Exception("Аннонимный пользователь не может удалять новости из списка");
+
+                var parameterNewsId = new SqlParameter("@newsId", rssNewsId);
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " INSERT INTO [dbo].[DeletedRssItemsByUser]([RssItemId], [UserId]) " +
+                             " VALUES (@newsId, @userId) ";
+                db.Database.ExecuteSqlCommand(sql, parameterNewsId, parameterUserId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return false;
+            }
+        }
+
         public void Dispose()
         {
             db.Dispose();

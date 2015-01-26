@@ -70,9 +70,11 @@ namespace ReadTheNews.Helpers
                 }
             }
             if (String.IsNullOrEmpty(newRssItem.ImageSrc))
+            {
                 newRssItem.ImageSrc = currentChannel.ImageSrc;
-            else
-                newRssItem.ImageSrc = "no";            
+                if (String.IsNullOrEmpty(newRssItem.ImageSrc))
+                    newRssItem.ImageSrc = "no";         
+            }
 
             newRssItem.RssChannel = currentChannel;
 

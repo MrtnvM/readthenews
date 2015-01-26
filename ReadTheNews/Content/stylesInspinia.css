@@ -2648,3 +2648,15 @@ ul.clear-list:first-child {
 #page-wrapper footer{
     margin-top: 20px;
 }
+
+/* Trouble shooting*/
+img.trouble-shooting{
+    margin: 30px 0px;
+    width:100%;
+}
+
+/*Favotite news*/
+.favorite-news-i{
+    color:rgb(249, 58, 116);
+    background-color: #7DD7C4;
+}
