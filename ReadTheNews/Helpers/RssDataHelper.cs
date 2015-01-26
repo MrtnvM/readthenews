@@ -163,7 +163,7 @@ namespace ReadTheNews.Helpers
                 if (String.IsNullOrEmpty(userId))
                     throw new Exception("Невозвожно добавить в список избранного новость от анонимного пользователя");
                 if (rssNewsId <= 0)
-                    throw new Exception("Некоректный идентификатор новости при добавлении в избранное");
+                    throw new Exception("Некорректный идентификатор новости при добавлении в избранное");
 
                 var parameterNewsId = new SqlParameter("@newsId", rssNewsId);
                 var parameterUserId = new SqlParameter("@userId", userId);
@@ -197,6 +197,51 @@ namespace ReadTheNews.Helpers
             {
                 logger.Error(ex.Message);
                 return null;
+            }
+        }
+
+        public List<RssItem> GetReadingList(string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Невозможно получить список для чтения анонимного пользователя");
+
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT * FROM [dbo].[RssItems] " +
+                             " WHERE [Id] IN ( SELECT [RssItemId] " +
+                                             " FROM [dbo].[RssNewsForReadingLater]" +
+                                             " WHERE [UserId] = @userId ) ";
+                List<RssItem> readingList = db.Database.SqlQuery<RssItem>(sql, parameterUserId).ToList();
+                return readingList;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
+        }
+
+        public bool AddRssNewsToReadingList(int rssNewsId, string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Невозможно добавить в список для чтения новость от анонимного пользователя");
+                if (rssNewsId <= 0)
+                    throw new Exception("Некоррекктный идентификатор при добавлении новости в список для чтения");
+
+                var parameterNewsId = new SqlParameter("@newsId", rssNewsId);
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " INSERT INTO [dbo].[RssNewsForReadingLater]([RssItemId], [UserId]) " +
+                             " VALUES (@newsId, @userId) ";
+                db.Database.ExecuteSqlCommand(sql, parameterNewsId, parameterUserId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return false;
             }
         }
 

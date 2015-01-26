@@ -47,7 +47,7 @@ namespace ReadTheNews.Controllers
                 {
                     favoriteNews = dataHelper.GetFavoriteRssNews(_userId);
                     if (favoriteNews == null)
-                        throw new Exception("Не удалось загрузить избрвнные новости. Попробуйте еще раз позднее");
+                        throw new Exception("Не удалось загрузить избрвнные новости. Попробуйте повторить позднее");
                 }
                 catch (Exception ex)
                 {
@@ -56,6 +56,28 @@ namespace ReadTheNews.Controllers
                 }
                 return View(favoriteNews);
             }
+        }
+
+        public ActionResult ReadItLater()
+        {
+            this.GetUserId();
+
+            List<RssItem> readingList;
+            using (var dataHelper = new RssDataHelper())
+            {
+                try
+                {
+                    readingList = dataHelper.GetReadingList(_userId);
+                    if (readingList == null)
+                        throw new Exception("Не удалось загрузить список для чтения. Попробуйте повторить позднее");
+                }
+                catch (Exception ex) 
+                {
+                    TempData["Error"] = ex.Message;
+                    return Redirect("Error");
+                }
+            }
+            return View(readingList);
         }
 
         public ActionResult Channel(int? id)
@@ -106,7 +128,7 @@ namespace ReadTheNews.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Некоректный идентификатор при добавлении новости в избранное";
+                TempData["Error"] = "Некорректный идентификатор при добавлении новости в избранное";
                 return Redirect("Error");
             }
             bool temp;
@@ -133,6 +155,24 @@ namespace ReadTheNews.Controllers
                 this.GetUserId();
                 int rssNewsId = Int32.Parse(id.ToString());
                 temp = dataHelper.DeleteRssNewsFromUserNewsList(rssNewsId, _userId);
+            }
+            var result = new { result = temp };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ReadLaterThisNews(int? id)
+        {
+            if (id == null)
+            {
+                TempData["Error"] = "Некорректный идентификатор при добавлении новости в список для чтения";
+                return Redirect("Error");
+            }
+            bool temp;
+            using (var dataHelper = new RssDataHelper())
+            {
+                this.GetUserId();
+                int rssNewsId = Int32.Parse(id.ToString());
+                temp = dataHelper.AddRssNewsToReadingList(rssNewsId, _userId);
             }
             var result = new { result = temp };
             return Json(result, JsonRequestBehavior.AllowGet);

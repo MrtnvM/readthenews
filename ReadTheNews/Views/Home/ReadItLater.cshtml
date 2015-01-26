@@ -1,12 +1,11 @@
 ﻿@using ReadTheNews.Models
 @model List<RssItem>
 @{
-    ViewBag.Title = "Мои избранные новости";
-    ViewBag.MyFavoriteNewsActive = "active";
+    ViewBag.Title = "Список для чтения";
+    ViewBag.ReadItLaterActive = "active";
 }
 
 <hr />
-
 @foreach (RssItem item in Model)
 {
     <div class="col-md-9 gray-bg">

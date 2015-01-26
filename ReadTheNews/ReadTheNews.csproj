@@ -347,6 +347,7 @@
     <Content Include="Views\Home\FutureLogin.cshtml" />
     <Content Include="Views\Home\MyFavoriteNews.cshtml" />
     <Content Include="Views\Shared\SingleNews.cshtml" />
+    <Content Include="Views\Home\ReadItLater.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
