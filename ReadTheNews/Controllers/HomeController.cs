@@ -121,7 +121,7 @@ namespace ReadTheNews.Controllers
 
         public ActionResult Error()
         {
-            return View("ErrorMessage");
+            return View("Error");
         }
 
         public ActionResult AddNewFavoriteRssNews(int? id)

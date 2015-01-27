@@ -134,9 +134,14 @@ namespace ReadTheNews.Helpers
             SqlParameter yesterdayDate = new SqlParameter(parameterYesterdayDate, yesterday);
             __sqlParameters.Add(yesterdayDate);
 
+            string parameterTodayDate = "@parameter" + __sqlParameters.Count;
+            SqlParameter todayDate = new SqlParameter(parameterTodayDate, DateTime.Now.Date);
+            __sqlParameters.Add(todayDate);
+
             __sql += " DELETE FROM [dbo].[RssItems] " +
                          " WHERE [RssChannelId] = " + parameterChannelId + " AND " +
-                               " [Date] < " + parameterYesterdayDate + " ;";
+                               " [Date] < " + parameterYesterdayDate + " AND " +
+                               " [RemoveDate] < " + parameterTodayDate + " ;";
         }
 
         public List<RssItem> GetFiltredNews(int channelId, string userId)

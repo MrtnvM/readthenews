@@ -202,7 +202,6 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\404-killed-kenny.png" />
     <Content Include="Content\Images\bg.png" />
-    <Content Include="Content\Images\header-bg.png" />
     <Content Include="Content\Images\login-bg.jpg" />
     <Content Include="Content\Images\new-header-profile.png" />
     <Content Include="Content\Images\new-news-logo.png" />
@@ -285,13 +284,10 @@
     <Content Include="Content\font-awesome-4.2.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.2.0\scss\_variables.scss" />
     <None Include="Properties\PublishProfiles\ReadTheNews.pubxml" />
-    <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\button-actions.js" />
     <Content Include="Scripts\inspinia.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.js" />
@@ -316,10 +312,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout1.cshtml" />
     <Content Include="Views\Home\RssChannels.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -342,9 +335,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Channel.cshtml" />
     <Content Include="Views\Home\ChannelNews.cshtml" />
-    <Content Include="Views\Shared\ErrorMessage.cshtml" />
     <Content Include="Views\Shared\NewsImage.cshtml" />
-    <Content Include="Views\Home\FutureLogin.cshtml" />
     <Content Include="Views\Home\MyFavoriteNews.cshtml" />
     <Content Include="Views\Shared\SingleNews.cshtml" />
     <Content Include="Views\Home\ReadItLater.cshtml" />
