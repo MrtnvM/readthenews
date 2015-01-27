@@ -1,0 +1,66 @@
+﻿@model ReadTheNews.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Регистрация | Read The News</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/stylesInspinia.css" rel="stylesheet" />
+    <link href="~/Content/animate.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-cover">
+        <div class="login-cover-image">
+            <img src="~/Content/Images/register-bg.jpg" />
+        </div>
+        
+    </div>
+
+    <div id="register-page-container" class="fade in">
+        <div class="login animated flipInY" data-pageload-addclass="animated flipInY">
+            <div class="login-header">
+                <div class="brand">
+                    Read The News
+                    <small>Актуальные новости в удобном формате</small>
+                </div>
+                <div class="icon"><i class="fa fa-sign-in"></i></div>
+            </div>
+            <div class="login-content">   
+                <div class="register-title">
+                    <h4>Создать новый аккаунт</h4>
+                    <hr />
+                </div>             
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group m-b-20">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control  input-lg", placeholder = "Ваше имя" })
+                    </div>
+                    <div class="form-group m-b-20">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "Email" })
+                    </div>
+                    <div class="form-group m-b-20">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Пароль" })
+                    </div>
+                    <div class="form-group m-b-20">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input-lg", placeholder = "Подтвердите пароль" })
+                    </div>
+                    <div class="login-buttons">
+                        <input type="submit" value="Зарегистрироваться" class="btn btn-success btn-block btn-lg" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>

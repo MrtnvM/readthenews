@@ -940,35 +940,6 @@ button.dim:active:before {
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
   right: 0px;
 }
-/* CHOSEN PLUGIN */
-.chosen-container-single .chosen-single {
-  background: #ffffff;
-  box-shadow: none;
-  -moz-box-sizing: border-box;
-  background-color: #FFFFFF;
-  border: 1px solid #CBD5DD;
-  border-radius: 2px;
-  cursor: text;
-  height: auto !important;
-  margin: 0;
-  min-height: 30px;
-  overflow: hidden;
-  padding: 4px 12px;
-  position: relative;
-  width: 100%;
-}
-.chosen-container-multi .chosen-choices li.search-choice {
-  background: #f1f1f1;
-  border: 1px solid #ededed;
-  border-radius: 2px;
-  box-shadow: none;
-  color: #333333;
-  cursor: default;
-  line-height: 13px;
-  margin: 3px 0 3px 5px;
-  padding: 3px 20px 3px 5px;
-  position: relative;
-}
 /* PAGINATIN */
 .pagination > .active > a,
 .pagination > .active > span,
@@ -2638,6 +2609,32 @@ ul.clear-list:first-child {
     }
 }
 
+/* Register */
+
+#register-page-container{
+    margin-right: 30px;
+    float: right;
+}
+
+.register-title{
+    margin: 0px -14px;
+    font-weight: 200;
+    font-size: 16px;
+}
+
+#register-page-container .input-lg{
+    opacity: 0.7;
+}
+
+#register-page-container .login-buttons{
+    margin-top:30px;
+    font-size: 18px !important;
+    font-weight: 300 !important;
+    font-family: "open sans", Helvetica, sans-serif !important;
+    margin-left: -14px;
+    margin-right: -14px;
+}
+
 .animated{
     -webkit-animation-duration: .6s;
     animation-duration: .6s;
@@ -2660,3 +2657,6 @@ img.trouble-shooting{
     color:rgb(249, 58, 116);
 }
 
+#side-menu{
+    position: fixed;
+}

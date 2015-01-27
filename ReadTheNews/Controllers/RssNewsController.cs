@@ -22,6 +22,12 @@ namespace ReadTheNews.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View("FutureRegister");
+        }
+
+        [AllowAnonymous]
         public ActionResult RssChannels()
         {
             try

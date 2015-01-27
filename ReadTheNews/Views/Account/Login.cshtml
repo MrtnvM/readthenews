@@ -7,6 +7,7 @@
 
 <html>
 <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Войти | Read The News</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
@@ -26,7 +27,6 @@
         <div class="login animated flipInX" data-pageload-addclass="animated flipInX">
             <div class="login-header">
                 <div class="brand">
-                    <span class="logo"></span>
                     Read The News
                     <small>Актуальные новости в удобном формате</small>
                 </div>
@@ -38,11 +38,11 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group m-b-20">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "Email Address" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "Email" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group m-b-20">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Password" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Пароль" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                     <div class="checkbox m-b-20">
