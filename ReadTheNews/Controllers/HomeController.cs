@@ -11,7 +11,7 @@ using ReadTheNews.Helpers;
 namespace ReadTheNews.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class RssNewsController : Controller
     {
         private RssContext db = new RssContext();
         string _userId;
@@ -31,7 +31,7 @@ namespace ReadTheNews.Controllers
             catch (Exception ex)
             {
                 TempData["Error"] = ex.Message;
-                return RedirectToRoute(new { controller = "Home", action = "Error" });
+                return RedirectToRoute(new { controller = "RssNews", action = "Error" });
             }
             return View();
         }

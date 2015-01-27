@@ -16,7 +16,7 @@ namespace ReadTheNews
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "RssChannels", id = UrlParameter.Optional }
+                defaults: new { controller = "RssNews", action = "RssChannels", id = UrlParameter.Optional }
             );
         }
     }

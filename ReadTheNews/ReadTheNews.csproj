@@ -171,7 +171,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\RssNewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -312,7 +311,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Home\RssChannels.cshtml" />
+    <Content Include="Views\RssNews\RssChannels.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -333,12 +332,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Channel.cshtml" />
-    <Content Include="Views\Home\ChannelNews.cshtml" />
+    <Content Include="Views\RssNews\Channel.cshtml" />
+    <Content Include="Views\RssNews\ChannelNews.cshtml" />
     <Content Include="Views\Shared\NewsImage.cshtml" />
-    <Content Include="Views\Home\MyFavoriteNews.cshtml" />
+    <Content Include="Views\RssNews\MyFavoriteNews.cshtml" />
     <Content Include="Views\Shared\SingleNews.cshtml" />
-    <Content Include="Views\Home\ReadItLater.cshtml" />
+    <Content Include="Views\RssNews\ReadItLater.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
