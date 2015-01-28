@@ -1622,6 +1622,7 @@ label.error {
   padding: 10px 20px;
   position: absolute;
   right: 0;
+  box-shadow: #999999 0px 0px 2px;
 }
 .sidebard-panel .feed-element img.img-circle {
   width: 32px;
@@ -2479,7 +2480,7 @@ ul.clear-list:first-child {
     z-index: 2;
     position: relative;
     width: auto;
-    min-height: 100% !important;
+    min-height: 600px !important;
   }
   .sidebar-content .wrapper {
     padding-right: 0px;

@@ -21,4 +21,10 @@ namespace ReadTheNews.Models
             RssItems = new List<RssItem>();
         }
     }
+
+    public class CountNewsOfCategory
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+    }
 }

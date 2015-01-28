@@ -33,6 +33,10 @@ namespace ReadTheNews.Controllers
             try
             {
                 ViewBag.RssChannels = db.RssChannels.ToList();
+                using (var dataHelper = new RssDataHelper())
+                {
+                    ViewBag.CountsCategoriesOfChannels = dataHelper.GetCountsCategoriesOfChannels();
+                }
             }
             catch (Exception ex)
             {
@@ -182,6 +186,28 @@ namespace ReadTheNews.Controllers
             }
             var result = new { result = temp };
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetNewsByCategory(string name)
+        {
+            List<RssItem> news;
+            try
+            {
+                if (String.IsNullOrEmpty(name))
+                    throw new Exception("Неверное имя категории");
+
+                using (var dataHelper = new RssDataHelper())
+                {
+                    news = dataHelper.GetRssNewsByCategory(name);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return Redirect("Error");
+            }
+            ViewBag.CategoryName = name;
+            return View(news);
         }
 
         private void GetUserId()

@@ -273,6 +273,25 @@ namespace ReadTheNews.Helpers
             }
         }
 
+        public List<CountNewsOfCategory> GetCountsCategoriesOfChannels()
+        {
+            string sql = " SELECT * FROM [dbo].GetCountsCategoriesOfChannels() ";
+            var countsList = db.Database.SqlQuery<CountNewsOfCategory>(sql).ToList();
+            return countsList;
+        }
+
+        public List<RssItem> GetRssNewsByCategory(string category)
+        {
+            var parameterCategoryName = new SqlParameter("@categoryName", category);
+            string sql = " SELECT RI.[Id], [RI].[Title], RI.[Link], RI.[Description], RI.[Date], RI.[ImageSrc], RI.[RssChannelId] " +
+                         " FROM [dbo].[RssItems] AS RI, [RssCategories] AS RC, [dbo].[RssItemRssCategories] AS RIRC " +
+                         " WHERE RI.[Id] = RIRC.[RssItem_Id] AND " +
+                               " RC.[Id] = RIRC.[RssCategory_Id] AND " +
+                               " RC.[Name] = @categoryName ";
+            List<RssItem> items = db.Database.SqlQuery<RssItem>(sql, parameterCategoryName).ToList();
+            return items;
+        }
+
         public void Dispose()
         {
             db.Dispose();

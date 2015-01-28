@@ -5,25 +5,25 @@
 }
 
 <h1>Добавить новый канал</h1>
-<div class="row">
-    <div class="col-md-9">
-        <form action="/Home/GetNews" class="form-inline" method="post">
-            <div class="form-group">
-                <input type="text" name="url" class="form-control text-input" placeholder="Введите адрес rss-канала">
-            </div>
-            <button type="submit" class="btn btn-primary">Получить Rss-канал</button>
-        </form>
+<form action="/Home/GetNews" class="form-inline" method="post">
+    <div class="form-group">
+        <input type="text" name="url" class="form-control text-input" placeholder="Введите адрес rss-канала">
     </div>
-</div>
+    <button type="submit" class="btn btn-primary">Получить Rss-канал</button>
+</form>
+
 <br /><br />
 <h2>Список доступных RSS-каналов</h2>
-<div class="row">
-    <div class="col-md-9">
-        <ul class="list">
-            @foreach (RssChannel channel in ViewBag.RssChannels)
-            {
-                <li><a href="/RssNews/Channel/@channel.Id" class="list-item">@channel.Title</a></li>
-            }
-        </ul>
-    </div>
-</div>
+
+<ul class="list">
+    @foreach (RssChannel channel in ViewBag.RssChannels)
+    {
+        <li><a href="/RssNews/Channel/@channel.Id" class="list-item">@channel.Title</a></li>
+    }
+</ul>
+
+@section SidebardPanel{
+
+    @Html.Partial("SidebardPanel")
+}
+

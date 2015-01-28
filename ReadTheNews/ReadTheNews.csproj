@@ -338,6 +338,9 @@
     <Content Include="Views\RssNews\MyFavoriteNews.cshtml" />
     <Content Include="Views\Shared\SingleNews.cshtml" />
     <Content Include="Views\RssNews\ReadItLater.cshtml" />
+    <Content Include="Views\Shared\SidebardPanel.cshtml" />
+    <Content Include="Views\Shared\RssCategories.cshtml" />
+    <Content Include="Views\RssNews\GetNewsByCategory.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>

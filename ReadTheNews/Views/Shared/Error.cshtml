@@ -7,7 +7,7 @@
 <h1 class="text-danger">Произошла ошибка.</h1>
 <h2 class="text-danger">Во время вашего последнего запроса возникла необработанная ошибка.</h2>
 <p>@TempData["Error"]</p>
-@if (String.IsNullOrEmpty(TempData["Error"].ToString()))
+@if (TempData["Error"] != null && !String.IsNullOrEmpty(TempData["Error"].ToString()))
 {
     <img src="~/Content/Images/this-is-not-the-page-youre-looking-for.png" />
 }
