@@ -338,7 +338,6 @@
     <Content Include="Views\RssNews\MyFavoriteNews.cshtml" />
     <Content Include="Views\Shared\SingleNews.cshtml" />
     <Content Include="Views\RssNews\ReadItLater.cshtml" />
-    <Content Include="Views\Shared\FutureRegister.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
