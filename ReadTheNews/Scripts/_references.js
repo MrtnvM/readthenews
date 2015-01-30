@@ -9,4 +9,4 @@
 /// <reference path="inspinia.js" />
 /// <reference path="jquery-2.1.1.js" />
 /// <reference path="jquery.metismenu.js" />
-/// <reference path="button-actions.js" />
+/// <reference path="readthenews.js" />

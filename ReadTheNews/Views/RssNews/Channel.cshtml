@@ -9,6 +9,13 @@
 <h2>@Model.Title</h2>
 <h4>@Model.Description</h4>
 <h6>Обновлено: @Model.PubDate</h6>
+<div> 
+        @if (!ViewBag.IsSubscribe)
+        {
+            <a id="subscribe-link" class="btn btn-danger channel-action" href="/RssNews/SubscribeOnChannel/@Model.Id">Подписаться на канал</a>
+        }
+</div>
+
 <hr />
 
 @foreach (RssItem item in Model.RssItems)
@@ -18,3 +25,25 @@
     </div>
 }
 <div class="ibox" style="height:0; opacity:0;"></div>
+
+@section SidebardPanel{
+    <div class="sidebard-panel">
+        <div>
+            @{
+                var list = (List<CountNewsOfCategory>)ViewBag.CountsCategoriesOfRssChannel;
+            }
+            <h4>Категории</h4>
+            <div>
+                <ul class="list-group">
+                    @foreach (CountNewsOfCategory countNewsOfCategory in list)
+                    {
+                        <li class="list-group-item">
+                            <span class="badge badge-primary">@countNewsOfCategory.Count</span>
+                            <a href="/RssNews/GetNewsByCategory?name=@countNewsOfCategory.Name">@countNewsOfCategory.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}

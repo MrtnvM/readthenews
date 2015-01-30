@@ -22,12 +22,6 @@ namespace ReadTheNews.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View("FutureRegister");
-        }
-
-        [AllowAnonymous]
         public ActionResult RssChannels()
         {
             try
@@ -35,7 +29,7 @@ namespace ReadTheNews.Controllers
                 ViewBag.RssChannels = db.RssChannels.ToList();
                 using (var dataHelper = new RssDataHelper())
                 {
-                    ViewBag.CountsCategoriesOfChannels = dataHelper.GetCountsCategoriesOfChannels();
+                    ViewBag.CountsCategoriesOfChannels = dataHelper.GetCountsCategoriesOfRssChannels();
                 }
             }
             catch (Exception ex)
@@ -44,6 +38,25 @@ namespace ReadTheNews.Controllers
                 return RedirectToRoute(new { controller = "RssNews", action = "Error" });
             }
             return View();
+        }
+
+        public ActionResult MyChannels()
+        {
+            try
+            {
+                this.GetUserId();
+                using (var dataHelper = new RssDataHelper())
+                {
+                    var channelNewsCounts = dataHelper.GetSubscribedRssChannels(_userId);
+                    ViewBag.CountsCategories = dataHelper.GetCountsCategoriesOfSubscribedChannels(_userId);
+                    return View(channelNewsCounts);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return Redirect("Error");
+            }
         }
 
         public ActionResult MyFavoriteNews()
@@ -98,9 +111,18 @@ namespace ReadTheNews.Controllers
             RssChannel channel;
             RssProcessor processor;
             try {
-                processor = RssProcessor.GetRssProcessor(Int32.Parse(id.ToString()));
+                int channelId = Int32.Parse(id.ToString());
+                processor = RssProcessor.GetRssProcessor(channelId);
                 this.GetUserId();
                 channel = processor.GetLatestNews(_userId);
+                using (var dataHelper = new RssDataHelper())
+                {
+                    var counts = dataHelper.GetCountsCategoriesOfRssChannel(channelId);
+                    if (counts == null)
+                        throw new Exception("Категории новостей канала не были загружены");
+                    ViewBag.CountsCategoriesOfRssChannel = counts;
+                    ViewBag.IsSubscribe = dataHelper.IsUserSubcribeOnRssChannel(channelId);
+                }
             }
             catch(Exception ex)
             {
@@ -113,18 +135,19 @@ namespace ReadTheNews.Controllers
         [HttpPost]
         public ActionResult GetNews(string url)
         {
-            RssProcessor processor;
+            RssChannel channel;
+
             try {
-                processor = RssProcessor.GetRssProcessor(url);
+                RssProcessor processor = RssProcessor.GetRssProcessor(url);
+                if (!processor.IsChannelDownload)
+                    return RedirectToAction("Error");
+
+                this.GetUserId();
+                channel = processor.GetLatestNews(_userId);
             } catch (Exception ex) {
                 TempData["Error"] = ex.Message;
                 return Redirect("Error");
-            }
-            if (!processor.IsChannelDownload)
-                return RedirectToAction("Error");
-            
-            this.GetUserId();
-            RssChannel channel = processor.GetLatestNews(_userId);
+            }            
 
             return View(channel);
         }
@@ -174,8 +197,7 @@ namespace ReadTheNews.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Некорректный идентификатор при добавлении новости в список для чтения";
-                return Redirect("Error");
+                return new EmptyResult();
             }
             bool temp;
             using (var dataHelper = new RssDataHelper())
@@ -208,6 +230,20 @@ namespace ReadTheNews.Controllers
             }
             ViewBag.CategoryName = name;
             return View(news);
+        }
+
+        public EmptyResult SubscribeOnChannel(int? id)
+        {
+            if (id == null)
+                return new EmptyResult();
+
+            using (var dataHelper = new RssDataHelper())
+            {
+                this.GetUserId();
+                int channelId = Int32.Parse(id.ToString());
+                dataHelper.AddUserSubscriptionOnRssChannel(channelId, _userId);
+            }
+            return new EmptyResult();
         }
 
         private void GetUserId()

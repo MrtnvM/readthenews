@@ -2480,7 +2480,7 @@ ul.clear-list:first-child {
     z-index: 2;
     position: relative;
     width: auto;
-    min-height: 600px !important;
+    min-height: 100% !important;
   }
   .sidebar-content .wrapper {
     padding-right: 0px;
@@ -2650,7 +2650,7 @@ ul.clear-list:first-child {
 /* Trouble shooting*/
 img.trouble-shooting{
     margin: 30px 0px;
-    width:100%;
+    width:950px;
 }
 
 /*Favotite news*/
@@ -2660,4 +2660,8 @@ img.trouble-shooting{
 
 #side-menu{
     position: fixed;
+}
+
+.channel-action{
+    padding: 2px 10px;
 }

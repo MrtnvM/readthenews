@@ -273,11 +273,46 @@ namespace ReadTheNews.Helpers
             }
         }
 
-        public List<CountNewsOfCategory> GetCountsCategoriesOfChannels()
+        public List<CountNewsOfCategory> GetCountsCategoriesOfRssChannels()
         {
             string sql = " SELECT * FROM [dbo].GetCountsCategoriesOfChannels() ";
             var countsList = db.Database.SqlQuery<CountNewsOfCategory>(sql).ToList();
             return countsList;
+        }
+
+        public List<CountNewsOfCategory> GetCountsCategoriesOfSubscribedChannels(string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Некорректный идентификатор пользователя при запросе количества новостей для подписанных каналов");
+
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT * FROM [dbo].GetCountsCategoriesOfSubscribedChannels(@userId) ";
+                var countsList = db.Database.SqlQuery<CountNewsOfCategory>(sql, parameterUserId).ToList();
+                return countsList;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
+        }
+
+        public List<CountNewsOfCategory> GetCountsCategoriesOfRssChannel(int channelId)
+        {
+            var parameterChannelId = new SqlParameter("@channelId", channelId);
+            string sql = " SELECT * FROM [dbo].GetCountsCategoriesOfChannel(@channelId) ";
+            try
+            {
+                List<CountNewsOfCategory> counts = db.Database.SqlQuery<CountNewsOfCategory>(sql, parameterChannelId).ToList();
+                return counts;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
         }
 
         public List<RssItem> GetRssNewsByCategory(string category)
@@ -290,6 +325,92 @@ namespace ReadTheNews.Helpers
                                " RC.[Name] = @categoryName ";
             List<RssItem> items = db.Database.SqlQuery<RssItem>(sql, parameterCategoryName).ToList();
             return items;
+        }
+
+        public bool IsUserSubcribeOnRssChannel(int channelId)
+        {
+            var parameterChannelId = new SqlParameter("@channelId", channelId);
+            string sql = " SELECT TOP(1) [RssChannelId] FROM [dbo].[UserRssChannels] " +
+                         " WHERE [RssChannelId] = @channelId ";
+            try
+            {
+                int? firstRecordId = db.Database.SqlQuery<int>(sql, parameterChannelId).FirstOrDefault();
+                if (firstRecordId == null || firstRecordId == 0)
+                    return false;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return false;
+            }
+        }
+
+        public void AddUserSubscriptionOnRssChannel(int channelId, string userId)
+        {
+            try
+            {
+                if (channelId <= 0)
+                    throw new Exception("Некорректный идентификатор при добавлении RSS-канала в подписки пользователя");
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Некорректное идентификатор пользователя при добавлении RSS-канала в подписки");
+
+                var parameterChannelId = new SqlParameter("@channelId", channelId);
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " INSERT INTO [dbo].[UserRssChannels]([RssChannelId], [UserId]) " +
+                             " VALUES (@channelId, @userId) ";
+                db.Database.ExecuteSqlCommand(sql, parameterChannelId, parameterUserId);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        public void DeleteSubcriptionOnRssChannel(int channelId, string userId)
+        {
+            try
+            {
+                if (channelId <= 0)
+                    throw new Exception("Некорректный идентификатор при удалении канала из подписок пользователя");
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Некорректный идентификатор пользователя при удалении канала из подписок");
+
+                var parameterChannelId = new SqlParameter("@channelId", channelId);
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " DELETE FROM [dbo].[UserRssChannels] " +
+                             " WHERE [RssChannelId] = @channelId AND " +
+                                   " [UserId] = @userId ";
+                db.Database.ExecuteSqlCommand(sql, parameterChannelId, parameterUserId);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        public List<ChannelNewsCount> GetSubscribedRssChannels(string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Некорректный идентификатор пользователя при запросе каналов пользователя");
+
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT MAX(RC.[Title]) AS [Title], COUNT(RC.[Id]) AS [Count], RC.[Id] " +
+                             " FROM [dbo].[RssChannels] AS RC " +
+                             " INNER JOIN [dbo].[UserRssChannels] AS URC ON RC.[Id] = URC.[RssChannelId] " +                            
+                             " INNER JOIN [dbo].[RssItems] AS RI ON RI.[RssChannelId] = RC.[Id] " +
+                             " WHERE URC.[UserId] = @userId " +
+                             " GROUP BY RC.[Id] ";
+                var channelNewsCounts = db.Database.SqlQuery<ChannelNewsCount>(sql, parameterUserId).ToList();
+                return channelNewsCounts;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
         }
 
         public void Dispose()

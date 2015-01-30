@@ -58,9 +58,9 @@
                     </li>
                     <li class="@ViewBag.MyNewsActive">
                         <a href="#"><i class="fa fa-newspaper-o"></i><span class="nav-label">Мои новости</span></a>
-                    </li>
+</li>
                     <li class="@ViewBag.MyRssChannelsActive">
-                        <a href="#"><i class="fa fa-rss"></i><span class="nav-label">Мои RSS-каналы</span></a>
+                        <a href="/RssNews/MyChannels"><i class="fa fa-rss"></i><span class="nav-label">Мои RSS-каналы</span></a>
                     </li>
                     <li class="@ViewBag.RssChannelsActive">
                         <a href="/RssNews/RssChannels"><i class="fa fa-rss-square"></i><span class="nav-label">RSS-каналы</span></a>
@@ -109,7 +109,7 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.metisMenu.js"></script>
     <script src="~/Scripts/inspinia.js"></script>
-    <script src="~/Scripts/button-actions.js"></script>
+    <script src="~/Scripts/ReadTheNews.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

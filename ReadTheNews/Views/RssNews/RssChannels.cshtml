@@ -5,7 +5,7 @@
 }
 
 <h1>Добавить новый канал</h1>
-<form action="/Home/GetNews" class="form-inline" method="post">
+<form action="/RssNews/GetNews" class="form-inline" method="post">
     <div class="form-group">
         <input type="text" name="url" class="form-control text-input" placeholder="Введите адрес rss-канала">
     </div>
@@ -23,7 +23,13 @@
 </ul>
 
 @section SidebardPanel{
-
-    @Html.Partial("SidebardPanel")
+    <div class="sidebard-panel">
+        <div>
+            @{
+                var list = (List<CountNewsOfCategory>)ViewBag.CountsCategoriesOfChannels; 
+            }
+            @Html.Partial("RssCategories", list)
+        </div>
+    </div>
 }
 

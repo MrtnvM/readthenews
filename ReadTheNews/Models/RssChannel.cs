@@ -49,4 +49,11 @@ namespace ReadTheNews.Models
             RssItems = new List<RssItem>();
         }
     }
+
+    public class ChannelNewsCount
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Count { get; set; }
+    }
 }

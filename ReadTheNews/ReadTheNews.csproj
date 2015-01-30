@@ -285,7 +285,7 @@
     <None Include="Properties\PublishProfiles\ReadTheNews.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\button-actions.js" />
+    <Content Include="Scripts\ReadTheNews.js" />
     <Content Include="Scripts\inspinia.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -341,6 +341,7 @@
     <Content Include="Views\Shared\SidebardPanel.cshtml" />
     <Content Include="Views\Shared\RssCategories.cshtml" />
     <Content Include="Views\RssNews\GetNewsByCategory.cshtml" />
+    <Content Include="Views\RssNews\MyChannels.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
