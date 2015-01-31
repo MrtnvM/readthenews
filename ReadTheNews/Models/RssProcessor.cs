@@ -15,7 +15,6 @@ namespace ReadTheNews.Models
         public SyndicationFeed Channel { get; private set; }
         public bool IsChannelDownload { get; private set; }
 
-        private RssContext db;
         private RssDataHelper dataHelper;
         private RssChannel currentChannel;
         private string rssChannelUrl;
@@ -28,7 +27,6 @@ namespace ReadTheNews.Models
         private RssProcessor()
         {
             Logger = LogManager.GetLogger("RssProcessor");
-            db = new RssContext();
             dataHelper = new RssDataHelper();
 
             IsChannelDownload = false;
@@ -148,7 +146,7 @@ namespace ReadTheNews.Models
 
             dataHelper.ExecuteQuery();
 
-            List<RssItem> rssItemsInDb = dataHelper.GetFiltredNews(currentChannel.Id, userId);
+            List<RssItem> rssItemsInDb = dataHelper.GetFiltredRssNews(currentChannel.Id, userId);
 
             return rssItemsInDb;
         }
@@ -169,12 +167,8 @@ namespace ReadTheNews.Models
                 this.IsNewContent = false;
                 return this.IsNewContent;
             }
-            SqlParameter channelId = new SqlParameter("@channelId", currentChannel.Id);
-            string sql = " SELECT TOP(1) * " +
-                         " FROM [RssItems] " +
-                         " WHERE [RssChannelId] = @channelId; ";
-            _lastRssItemInDb = db.Database.SqlQuery<RssItem>(sql, channelId).FirstOrDefault();
 
+            _lastRssItemInDb = dataHelper.GetLastRssItemOfChannel(currentChannel.Id);
             if (_lastRssItemInDb != null && _lastRssItemInDb.Title == item.Title.Text)
             {
                 this.IsNewContent = false;
@@ -187,7 +181,7 @@ namespace ReadTheNews.Models
 
         public void Dispose()
         {
-            db.Dispose();
+            dataHelper.Dispose();
         }
 
         ~RssProcessor()

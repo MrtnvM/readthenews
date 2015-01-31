@@ -117,7 +117,14 @@ namespace ReadTheNews.Helpers
 
         public void ExecuteQuery()
         {
-            db.Database.ExecuteSqlCommand(__sql, __sqlParameters.ToArray());
+            try
+            {
+                db.Database.ExecuteSqlCommand(__sql, __sqlParameters.ToArray());
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
             __sql = "";
             __sqlParameters.Clear();
         }
@@ -144,21 +151,29 @@ namespace ReadTheNews.Helpers
                                " [RemoveDate] < " + parameterTodayDate + " ;";
         }
 
-        public List<RssItem> GetFiltredNews(int channelId, string userId)
+        public List<RssItem> GetFiltredRssNews(int channelId, string userId)
         {
-            if (channelId == 0)
-                throw new Exception("Канал не был загружен");
+            try
+            {
+                if (channelId == 0)
+                    throw new Exception("Канал не был загружен");
 
-            if (String.IsNullOrEmpty(userId))
-                throw new Exception("Пользователь не авторизован");
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Пользователь не авторизован");
 
-            SqlParameter parameterChannelId = new SqlParameter("@channelId", channelId);
-            SqlParameter parameterUserId = new SqlParameter("@userId", userId);
-            string sql = " SELECT * FROM [dbo].GetFiltredNews(@channelId, @userId); ";
+                SqlParameter parameterChannelId = new SqlParameter("@channelId", channelId);
+                SqlParameter parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT * FROM [dbo].GetFiltredNews(@channelId, @userId); ";
 
-            List<RssItem> news = db.RssItems.SqlQuery(sql, parameterChannelId, parameterUserId).ToList();
-            
-            return news;
+                List<RssItem> news = db.RssItems.SqlQuery(sql, parameterChannelId, parameterUserId).ToList();
+
+                return news;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
         }
 
         public bool AddRssNewsToFavorite(int rssNewsId, string userId)
@@ -280,7 +295,7 @@ namespace ReadTheNews.Helpers
             return countsList;
         }
 
-        public List<CountNewsOfCategory> GetCountsCategoriesOfSubscribedChannels(string userId)
+        public List<CountNewsOfCategory> GetCountsCategoriesOfSubscribedRssChannels(string userId)
         {
             try
             {
@@ -323,8 +338,16 @@ namespace ReadTheNews.Helpers
                          " WHERE RI.[Id] = RIRC.[RssItem_Id] AND " +
                                " RC.[Id] = RIRC.[RssCategory_Id] AND " +
                                " RC.[Name] = @categoryName ";
-            List<RssItem> items = db.Database.SqlQuery<RssItem>(sql, parameterCategoryName).ToList();
-            return items;
+            try
+            {
+                List<RssItem> items = db.Database.SqlQuery<RssItem>(sql, parameterCategoryName).ToList();
+                return items;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
         }
 
         public bool IsUserSubcribeOnRssChannel(int channelId)
@@ -405,6 +428,24 @@ namespace ReadTheNews.Helpers
                              " GROUP BY RC.[Id] ";
                 var channelNewsCounts = db.Database.SqlQuery<ChannelNewsCount>(sql, parameterUserId).ToList();
                 return channelNewsCounts;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
+        }
+
+        public RssItem GetLastRssItemOfChannel(int channelId)
+        {
+            SqlParameter parameterChannelId = new SqlParameter("@channelId", channelId);
+            string sql = " SELECT TOP(1) * " +
+                         " FROM [RssItems] " +
+                         " WHERE [RssChannelId] = @channelId; ";
+            try
+            {
+                RssItem lastRssItemInDb = db.Database.SqlQuery<RssItem>(sql, parameterChannelId).FirstOrDefault();
+                return lastRssItemInDb;
             }
             catch (Exception ex)
             {

@@ -22,7 +22,7 @@ namespace ReadTheNews.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult RssChannels()
+        public ActionResult Channels()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace ReadTheNews.Controllers
                 using (var dataHelper = new RssDataHelper())
                 {
                     var channelNewsCounts = dataHelper.GetSubscribedRssChannels(_userId);
-                    ViewBag.CountsCategories = dataHelper.GetCountsCategoriesOfSubscribedChannels(_userId);
+                    ViewBag.CountsCategories = dataHelper.GetCountsCategoriesOfSubscribedRssChannels(_userId);
                     return View(channelNewsCounts);
                 }
             }
