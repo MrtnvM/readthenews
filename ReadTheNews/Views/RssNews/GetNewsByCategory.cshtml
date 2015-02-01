@@ -2,7 +2,19 @@
 @model List<RssItem>
 @{
     ViewBag.Title = "Категория: " + ViewBag.CategoryName;
-    ViewBag.RssChannelsActive = "active";
+    string active = TempData["active"] != null ? TempData["active"].ToString() : "";
+    switch (active)
+    {
+        case "RssChannels": 
+            ViewBag.RssChannelsActive = "active";
+            break;
+        case "MyRssChannels":
+            ViewBag.MyRssChannelsActive = "active";
+            break;
+        default:
+            ViewBag.RssChannelsActive = "active";
+            break;
+    }
 }
 
 <hr />

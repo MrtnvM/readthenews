@@ -27,23 +27,22 @@
 <div class="ibox" style="height:0; opacity:0;"></div>
 
 @section SidebardPanel{
-    <div class="sidebard-panel">
+    @{
+        var list = (List<CountNewsOfCategory>)ViewBag.CountsCategoriesOfRssChannel;
+    }
+    <div class="sidebar-wrapper">
+        <h4 class="sidebar-title">Категории</h4>
         <div>
-            @{
-                var list = (List<CountNewsOfCategory>)ViewBag.CountsCategoriesOfRssChannel;
-            }
-            <h4>Категории</h4>
-            <div>
-                <ul class="list-group">
-                    @foreach (CountNewsOfCategory countNewsOfCategory in list)
-                    {
-                        <li class="list-group-item">
-                            <span class="badge badge-primary">@countNewsOfCategory.Count</span>
-                            <a href="/RssNews/GetNewsByCategory?name=@countNewsOfCategory.Name">@countNewsOfCategory.Name</a>
-                        </li>
-                    }
-                </ul>
-            </div>
+            <ul class="categories">
+                @foreach (CountNewsOfCategory countNewsOfCategory in list)
+                {
+                    <li>
+                        <a href="/RssNews/GetNewsByCategory?name=@countNewsOfCategory.Name">@countNewsOfCategory.Name</a>
+                        <span class="badge badge-primary pull-right">@countNewsOfCategory.Count</span>
+                    </li>
+                }
+            </ul>
+            <div class="clearfix"></div>
         </div>
     </div>
 }

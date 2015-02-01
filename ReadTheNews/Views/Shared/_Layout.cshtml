@@ -63,7 +63,7 @@
                         <a href="/RssNews/MyChannels"><i class="fa fa-rss"></i><span class="nav-label">Мои RSS-каналы</span></a>
                     </li>
                     <li class="@ViewBag.RssChannelsActive">
-                        <a href="/RssNews/RssChannels"><i class="fa fa-rss-square"></i><span class="nav-label">RSS-каналы</span></a>
+                        <a href="/RssNews/Channels"><i class="fa fa-rss-square"></i><span class="nav-label">RSS-каналы</span></a>
                     </li>
                     <li class="@ViewBag.EmailActive">
                         <a href="#"><i class="fa fa-send-o"></i><span class="nav-label">E-mail рассылка</span></a>
@@ -76,9 +76,8 @@
             </div>
         </nav>
 
-
         <div id="page-wrapper" class="gray-bg">
-            <header class="row border-bottom">
+            <header class="border-bottom">
                 <nav class="navbar navbar-static-top" style="margin-bottom: 0; background-color:#fff;">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
@@ -87,21 +86,15 @@
                     @Html.Partial("_LoginPartial")
                 </nav>                
             </header>
-            @RenderSection("SidebardPanel", required: false)
-            <div class="content">
-                <div class="row">
-                    <div class="col-md-9">
-                        @RenderBody()
-                    </div>
-                <div class="col-md-3">
-                    
-                </div>
+            <div>
+                @RenderSection("SidebardPanel", required: false)
+                <div class="content">
+                    @RenderBody()                 
+                </div>                
             </div>
-            <div class="clearfix"></div>
-            <footer>
+            <footer class="clearfix">
                 <strong>&copy; @DateTime.Now.Year</strong> - <strong>ReadTheNews</strong> by <strong>M.M.</strong>
             </footer>
-            </div>
         </div>
     </div>
     <script src="~/Scripts/jquery-2.1.1.js"></script>

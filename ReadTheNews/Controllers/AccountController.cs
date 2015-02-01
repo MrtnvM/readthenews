@@ -163,7 +163,7 @@ namespace ReadTheNews.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("RssChannels", "RssNews");
+                    return RedirectToAction("Channels", "RssNews");
                 }
                 AddErrors(result);
             }
@@ -392,7 +392,7 @@ namespace ReadTheNews.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("RssChannels", "RssNews");
+            return RedirectToAction("Channels", "RssNews");
         }
 
         //
@@ -449,7 +449,7 @@ namespace ReadTheNews.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("RssChannels", "RssNews");
+            return RedirectToAction("Channels", "RssNews");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

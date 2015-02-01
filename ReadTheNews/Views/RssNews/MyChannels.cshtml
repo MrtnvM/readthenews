@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Мои RSS-каналы";
     ViewBag.MyRssChannelsActive = "active";
+    TempData["active"] = "MyRssChannels";
 }
 
 <h2>Мои RSS-каналы</h2>
@@ -16,23 +17,22 @@
 </ul>
 
 @section SidebardPanel{
-    <div class="sidebard-panel">
+    @{
+        var list = (List<CountNewsOfCategory>)ViewBag.CountsCategories;
+    }
+    <div class="sidebar-wrapper">
+        <h4 class="sidebar-title">Категории</h4>
         <div>
-            @{
-                var list = (List<CountNewsOfCategory>)ViewBag.CountsCategories;
-            }
-            <h4>Категории</h4>
-            <div>
-                <ul class="list-group">
-                    @foreach (CountNewsOfCategory cnoc in list)
-                    {
-                        <li class="list-group-item">
-                            <span class="badge badge-primary">@cnoc.Count</span>
-                            <a href="/RssNews/GetNewsByCategory/@cnoc.Name">@cnoc.Name</a>
-                        </li>
-                    }
-                </ul>
-            </div>
+            <ul class="categories">
+                @foreach (CountNewsOfCategory cnoc in list)
+                {
+                    <li>
+                        <a href="/RssNews/GetNewsByCategory/@cnoc.Name">@cnoc.Name</a>
+                        <span class="badge badge-primary pull-right">@cnoc.Count</span>
+                    </li>
+                }
+            </ul>
+            <div class="clearfix"></div>
         </div>
     </div>
 }

@@ -157,57 +157,46 @@ namespace ReadTheNews.Controllers
             return View("Error");
         }
 
-        public ActionResult AddNewFavoriteRssNews(int? id)
+        public EmptyResult AddNewFavoriteRssNews(int? id)
         {
             if (id == null)
-            {
-                TempData["Error"] = "Некорректный идентификатор при добавлении новости в избранное";
-                return Redirect("Error");
-            }
-            bool temp;
+                return new EmptyResult();
+
             using (var dataHelper = new RssDataHelper())
             {
                 this.GetUserId();
                 int rssNewsId = Int32.Parse(id.ToString());
-                temp = dataHelper.AddRssNewsToFavorite(rssNewsId, _userId);
+                dataHelper.AddRssNewsToFavorite(rssNewsId, _userId);
             }
-            var result = new { result = temp };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new EmptyResult();
         }
 
-        public ActionResult DeleteNewsFromUserNewsList(int? id)
+        public EmptyResult DeleteNewsFromUserNewsList(int? id)
         {
             if (id == null)
-            {
-                TempData["Error"] = "Некоректный идентификатор при удалении новости из списка новостей";
-                return Redirect("Error");
-            }
-            bool temp;
+                return new EmptyResult();
+
             using (var dataHelper = new RssDataHelper())
             {
                 this.GetUserId();
                 int rssNewsId = Int32.Parse(id.ToString());
-                temp = dataHelper.DeleteRssNewsFromUserNewsList(rssNewsId, _userId);
+                dataHelper.DeleteRssNewsFromUserNewsList(rssNewsId, _userId);
             }
-            var result = new { result = temp };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new EmptyResult();
         }
 
         public ActionResult ReadLaterThisNews(int? id)
         {
             if (id == null)
-            {
                 return new EmptyResult();
-            }
-            bool temp;
+
             using (var dataHelper = new RssDataHelper())
             {
                 this.GetUserId();
                 int rssNewsId = Int32.Parse(id.ToString());
-                temp = dataHelper.AddRssNewsToReadingList(rssNewsId, _userId);
+                dataHelper.AddRssNewsToReadingList(rssNewsId, _userId);
             }
-            var result = new { result = temp };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new EmptyResult();
         }
 
         public ActionResult GetNewsByCategory(string name)

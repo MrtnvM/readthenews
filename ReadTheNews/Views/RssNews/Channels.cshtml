@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "RSS - Каналы";
     ViewBag.RssChannelsActive = "active";
+    TempData["active"] = "RssChannels";
 }
 
 <h1>Добавить новый канал</h1>
@@ -23,13 +24,11 @@
 </ul>
 
 @section SidebardPanel{
-    <div class="sidebard-panel">
-        <div>
-            @{
-                var list = (List<CountNewsOfCategory>)ViewBag.CountsCategoriesOfChannels; 
-            }
-            @Html.Partial("RssCategories", list)
-        </div>
+    @{
+        var list = (List<CountNewsOfCategory>)ViewBag.CountsCategoriesOfChannels; 
+    }
+    <div class="sidebar-wrapper">
+        @Html.Partial("RssCategories", list)
     </div>
 }
 

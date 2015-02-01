@@ -1,20 +1,27 @@
 ﻿@using Microsoft.AspNet.Identity
 
-<ul class="nav navbar-top-links navbar-right">
-    @if (Request.IsAuthenticated)
-    {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
-            @Html.AntiForgeryToken()
-                <li>
-                    <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
-                </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()" id="loginLink"><i class="fa fa-sign-out"></i>Выход</a></li>
-        }
-    }
-    else
-    {
-            <li><a href="/Account/Register" id="registerLink"><i class="fa fa-user"></i>Зарегистрироваться</a></li>
-            <li><a href="/Account/Login" id="loginLink"><i class="fa fa-sign-in"></i>Войти</a></li>
-    }
-</ul>
+
+@if (Request.IsAuthenticated)
+{
+    <form action="Account/LogOff" method="post" id="logoutForm">
+        <ul class="nav navbar-top-links navbar-account">
+            <li>
+                <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()" id="loginLink">
+                <i class="fa fa-sign-out"></i>Выход</a>
+            </li>
+        </ul>
+    </form>
+    <div style="display: none">
+        @Html.AntiForgeryToken()
+    </div>
+}
+else
+{
+    <ul class="nav navbar-top-links navbar-account">
+        <li><a href="/Account/Register"><i class="fa fa-user"></i>Зарегистрироваться</a></li>
+        <li><a href="/Account/Login"><i class="fa fa-sign-in"></i>Войти</a></li>
+    </ul>
+}
