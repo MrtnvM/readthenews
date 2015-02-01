@@ -342,6 +342,7 @@
     <Content Include="Views\Shared\RssCategories.cshtml" />
     <Content Include="Views\RssNews\GetNewsByCategory.cshtml" />
     <Content Include="Views\RssNews\MyChannels.cshtml" />
+    <Content Include="Views\RssNews\MyNews.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>

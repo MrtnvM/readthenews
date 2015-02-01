@@ -103,6 +103,25 @@ namespace ReadTheNews.Controllers
             return View(readingList);
         }
 
+        public ActionResult MyNews()
+        {
+            try
+            {
+                this.GetUserId();
+                using (var dataHelper = new RssDataHelper())
+                {
+                    var myNews = dataHelper.GetUserRssNews(_userId);
+                    ViewBag.CountsCategories = dataHelper.GetCountsCategoriesOfSubscribedRssChannels(_userId);
+                    return View(myNews);
+                }                
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return Redirect("Error");
+            }
+        }
+
         public ActionResult Channel(int? id)
         {
             if (id == null)

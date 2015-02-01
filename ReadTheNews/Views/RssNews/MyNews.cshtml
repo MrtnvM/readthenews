@@ -1,0 +1,36 @@
+﻿@using ReadTheNews.Models
+@model List<RssItem>
+@{
+    ViewBag.Title = "Мои новости";
+    ViewBag.MyNewsActive = "active";
+}
+
+<hr />
+
+@foreach (RssItem item in Model)
+{
+    @Html.Partial("SingleNews", item)
+}
+
+<div class="ibox" style="height:0; opacity:0;"></div>
+
+@section SidebardPanel{
+    @{
+        var list = (List<CountNewsOfCategory>)ViewBag.CountsCategories;
+    }
+    <div class="sidebar-wrapper">
+        <h4 class="sidebar-title">Категории</h4>
+        <div>
+            <ul class="categories">
+                @foreach (CountNewsOfCategory cnoc in list)
+                {
+                    <li>
+                        <a href="/RssNews/GetNewsByCategory/@cnoc.Name">@cnoc.Name</a>
+                        <span class="badge badge-primary pull-right">@cnoc.Count</span>
+                    </li>
+                }
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+}

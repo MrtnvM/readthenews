@@ -454,6 +454,28 @@ namespace ReadTheNews.Helpers
             }
         }
 
+        public List<RssItem> GetUserRssNews(string userId)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Некорректный идентификатор пользователя при запросе списка новостей");
+
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT * " +
+                             " FROM [dbo].[RssItems] AS RI " +
+                             " INNER JOIN [dbo].[UserRssChannels] AS URC ON URC.[RssChannelId] = RI.[RssChannelId] " +
+                             " ORDER BY RI.[Date] DESC ";
+                var news = db.Database.SqlQuery<RssItem>(sql, parameterUserId).ToList();
+                return news;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return null;
+            }
+        }
+
         public void Dispose()
         {
             db.Dispose();

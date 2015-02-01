@@ -4,6 +4,7 @@
 @if (Request.IsAuthenticated)
 {
     <form action="Account/LogOff" method="post" id="logoutForm">
+        @Html.AntiForgeryToken()
         <ul class="nav navbar-top-links navbar-account">
             <li>
                 <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
@@ -13,10 +14,7 @@
                 <i class="fa fa-sign-out"></i>Выход</a>
             </li>
         </ul>
-    </form>
-    <div style="display: none">
-        @Html.AntiForgeryToken()
-    </div>
+    </form>        
 }
 else
 {
