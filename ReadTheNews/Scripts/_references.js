@@ -10,3 +10,4 @@
 /// <reference path="jquery-2.1.1.js" />
 /// <reference path="jquery.metismenu.js" />
 /// <reference path="readthenews.js" />
+/// <reference path="hammer.min.js" />

@@ -53,9 +53,6 @@
                     <li class="@ViewBag.MyFavoriteNewsActive">
                         <a href="/RssNews/MyFavoriteNews"><i class="fa fa-heart"></i><span class="nav-label">Избранные новости</span></a>
                     </li>
-                    <li class="@ViewBag.MyFavoriteChannelsActive">
-                        <a href="#"><i class="fa fa-star"></i><span class="nav-label">Избранные каналы</span></a>
-                    </li>
                     <li class="@ViewBag.MyNewsActive">
                         <a href="/RssNews/MyNews"><i class="fa fa-newspaper-o"></i><span class="nav-label">Мои новости</span></a>
 </li>
@@ -98,10 +95,10 @@
         </div>
     </div>
     <script src="~/Scripts/jquery-2.1.1.js"></script>
-    <script src="~/Scripts/jquery-ui-1.11.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.metisMenu.js"></script>
     <script src="~/Scripts/inspinia.js"></script>
+    <script src="~/Scripts/hammer.min.js"></script>
     <script src="~/Scripts/ReadTheNews.js"></script>
     @RenderSection("scripts", required: false)
 </body>

@@ -3,23 +3,20 @@
 
 @if (Request.IsAuthenticated)
 {
-    <form action="Account/LogOff" method="post" id="logoutForm">
+    <form action="/Account/LogOff" method="post" id="logoutForm">
         @Html.AntiForgeryToken()
-        <ul class="nav navbar-top-links navbar-account">
-            <li>
-                <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
-            </li>
-            <li>
-                <a href="javascript:document.getElementById('logoutForm').submit()" id="loginLink">
-                <i class="fa fa-sign-out"></i>Выход</a>
-            </li>
-        </ul>
+        <div class="account-menu pull-right">
+            <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
+            <a href="javascript:document.getElementById('logoutForm').submit()" id="loginLink">
+                <i class="fa fa-sign-out"></i>Выход
+            </a>
+        </div>
     </form>        
 }
 else
 {
-    <ul class="nav navbar-top-links navbar-account">
-        <li><a href="/Account/Register"><i class="fa fa-user"></i>Зарегистрироваться</a></li>
-        <li><a href="/Account/Login"><i class="fa fa-sign-in"></i>Войти</a></li>
-    </ul>
+    <div class="account-menu">
+        <a href="/Account/Register"><i class="fa fa-user"></i> Зарегистрироваться</a>
+        <a href="/Account/Login"><i class="fa fa-sign-in"></i> Войти</a>
+    </div>
 }

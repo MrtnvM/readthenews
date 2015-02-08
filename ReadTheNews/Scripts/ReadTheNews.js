@@ -29,3 +29,15 @@ $("#subscribe-link").click(function (e) {
     $.get(this.href);
     $(this).fadeOut();
 });
+
+$(function () {
+    $(".ibox").each(function () {
+        var myElement = this;
+        var hammertime = new Hammer(myElement);
+        hammertime.on('swipe', function (ev) {
+            console.log(ev);
+            $(myElement).fadeOut();
+            $.get($("div.news-buttons > a:has(i.fa-remove)", myElement).prop("href"));
+        });
+    });    
+});

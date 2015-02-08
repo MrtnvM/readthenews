@@ -285,6 +285,7 @@
     <None Include="Properties\PublishProfiles\ReadTheNews.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\hammer.min.js" />
     <Content Include="Scripts\ReadTheNews.js" />
     <Content Include="Scripts\inspinia.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
