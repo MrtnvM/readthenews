@@ -6,7 +6,7 @@
     <form action="/Account/LogOff" method="post" id="logoutForm">
         @Html.AntiForgeryToken()
         <div class="account-menu pull-right">
-            <a href="/Manage" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
+            <a href="#" id="registerLink"><i></i>@("Привет " + User.Identity.Name + "!")</a>
             <a href="javascript:document.getElementById('logoutForm').submit()" id="loginLink">
                 <i class="fa fa-sign-out"></i>Выход
             </a>

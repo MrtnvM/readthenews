@@ -186,6 +186,7 @@
     <Compile Include="Models\RssContext.cs" />
     <Compile Include="Models\RssItem.cs" />
     <Compile Include="Models\RssProcessor.cs" />
+    <Compile Include="Modules\NewsRefreshingModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

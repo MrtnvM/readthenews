@@ -1688,11 +1688,10 @@ img.trouble-shooting{
         display: block;
     }
     .categories li{
-        display: block;
+        display: inline-block;
         width: 200px;
         margin: 0;
         margin-right: 30px;
-        float: left;
     }
     .content{
         margin: 0;
@@ -1704,9 +1703,6 @@ img.trouble-shooting{
     .categories li{
         width: 400px;
         padding-left: 10px;
-    }
-    .categories li:nth-child(2n+1){
-        float: left;
     }
     .content{
         padding: 5px 10px 15px;
@@ -1731,4 +1727,9 @@ img.trouble-shooting{
 }
 .account-menu:last-child{
     padding-right: 20px;
+}
+.login-bg{
+    background-image: url('Images/login-bg.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
 }

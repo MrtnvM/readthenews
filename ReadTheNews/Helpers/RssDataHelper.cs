@@ -314,13 +314,19 @@ namespace ReadTheNews.Helpers
             }
         }
 
-        public List<CountNewsOfCategory> GetCountsCategoriesOfRssChannel(int channelId)
-        {
-            var parameterChannelId = new SqlParameter("@channelId", channelId);
-            string sql = " SELECT * FROM [dbo].GetCountsCategoriesOfChannel(@channelId) ";
+        public List<CountNewsOfCategory> GetCountsCategoriesOfRssChannel(int channelId, string userId)
+        {            
             try
             {
-                List<CountNewsOfCategory> counts = db.Database.SqlQuery<CountNewsOfCategory>(sql, parameterChannelId).ToList();
+                if (channelId <= 0)
+                    throw new Exception("Некорректный идентификатор канала при запросе количества новостей по категориям канала");
+                if (String.IsNullOrEmpty(userId))
+                    throw new Exception("Некорректный идентификатор пользователя при запросе количества новостей по категориям канала");
+
+                var parameterChannelId = new SqlParameter("@channelId", channelId);
+                var parameterUserId = new SqlParameter("@userId", userId);
+                string sql = " SELECT * FROM [dbo].GetCountsCategoriesOfChannel(@channelId, @userId) ";
+                List<CountNewsOfCategory> counts = db.Database.SqlQuery<CountNewsOfCategory>(sql, parameterChannelId, parameterUserId).ToList();
                 return counts;
             }
             catch (Exception ex)
