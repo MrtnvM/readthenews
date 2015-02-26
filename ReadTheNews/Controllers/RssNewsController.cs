@@ -136,7 +136,7 @@ namespace ReadTheNews.Controllers
                 channel = processor.GetLatestNews(_userId);
                 using (var dataHelper = new RssDataHelper())
                 {
-                    var counts = dataHelper.GetCountsCategoriesOfRssChannel(channelId);
+                    var counts = dataHelper.GetCountsCategoriesOfRssChannel(channelId, _userId);
                     if (counts == null)
                         throw new Exception("Категории новостей канала не были загружены");
                     ViewBag.CountsCategoriesOfRssChannel = counts;
