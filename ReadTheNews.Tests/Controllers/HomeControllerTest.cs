@@ -15,14 +15,6 @@ namespace ReadTheNews.Tests.Controllers
         [TestMethod]
         public void Index()
         {
-            // Arrange
-            HomeController controller = new HomeController();
-
-            // Act
-            ViewResult result = controller.RssChannels() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
         }
     }
 }

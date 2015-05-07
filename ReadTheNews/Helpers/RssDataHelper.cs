@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ReadTheNews.Models;
 using System.Data.SqlClient;
+using System.Text;
 using log4net;
 
 namespace ReadTheNews.Helpers
@@ -10,7 +11,7 @@ namespace ReadTheNews.Helpers
     public class RssDataHelper : IDisposable
     {
         private RssContext db;
-        private string __sql;
+        private StringBuilder __sql;
         private List<SqlParameter> __sqlParameters;
         ILog logger = LogManager.GetLogger(typeof(RssDataHelper));
 
@@ -33,8 +34,8 @@ namespace ReadTheNews.Helpers
             string parameterName = "@parameter" + __sqlParameters.Count;
             __sqlParameters.Add(new SqlParameter(parameterName, category.Name));
 
-            __sql += " INSERT INTO [dbo].[RssCategories](Name) " +
-                     " VALUES (" + parameterName + "); ";
+            __sql.Append(" INSERT INTO [dbo].[RssCategories](Name) " +
+                     " VALUES (" + parameterName + "); ");
         }
 
         public void AddRssChannelInDb(RssChannel channel)
@@ -57,13 +58,13 @@ namespace ReadTheNews.Helpers
             string parameterDate = "@parameter" + __sqlParameters.Count;
             __sqlParameters.Add(new SqlParameter(parameterDate, channel.PubDate));
 
-            __sql += " INSERT INTO [dbo].[RssChannels]([Title], [Language], [Link], [Description], [ImageSrc], [PubDate]) " +
+            __sql.Append(" INSERT INTO [dbo].[RssChannels]([Title], [Language], [Link], [Description], [ImageSrc], [PubDate]) " +
                      " VALUES (" + parameterTitle + ", " +
                                    parameterLang + ", " +
                                    parameterLink + ", " +
                                    parameterDesc + ", " +
                                    parameterImgSrc + ", " +
-                                   parameterDate + "); ";
+                                   parameterDate + "); ");
         }
 
         public void AddRssItemInDb(RssItem item)
@@ -86,19 +87,19 @@ namespace ReadTheNews.Helpers
             string parameterImgSrc = "@parameter" + __sqlParameters.Count;
             __sqlParameters.Add(new SqlParameter(parameterImgSrc, item.ImageSrc));
 
-            __sql += " EXECUTE [dbo].[AddRssItem] " + parameterRssChannelTitle + ", " +
+            __sql.Append(" EXECUTE [dbo].[AddRssItem] " + parameterRssChannelTitle + ", " +
                                                       parameterTitle + ", " +
                                                       parameterLink + ", " +
                                                       parameterDesc + ", " +
                                                       parameterDate + ", " +
-                                                      parameterImgSrc + "; ";
+                                                      parameterImgSrc + "; ");
 
             foreach (RssCategory category in item.RssCategories)
             {
                 string parameterCategoryName = "@parameter" + __sqlParameters.Count;
                 __sqlParameters.Add(new SqlParameter(parameterCategoryName, category.Name));
-                __sql += " EXECUTE [dbo].[AddRssItemRssCategories] " + parameterTitle + ", "
-                                                                     + parameterCategoryName + "; ";
+                __sql.Append(" EXECUTE [dbo].[AddRssItemRssCategories] " + parameterTitle + ", "
+                                                                     + parameterCategoryName + "; ");
             }
         }
 
@@ -110,22 +111,22 @@ namespace ReadTheNews.Helpers
             string parameterTitle = "@parameter" + __sqlParameters.Count;
             __sqlParameters.Add(new SqlParameter(parameterTitle, channel.Title));
 
-            __sql += " UPDATE [dbo].[RssChannels] " +
+            __sql.Append(" UPDATE [dbo].[RssChannels] " +
                      " SET [PubDate] = " + parameterDate +
-                     " WHERE [Title] = " + parameterTitle + "; ";
+                     " WHERE [Title] = " + parameterTitle + "; ");
         }
 
         public void ExecuteQuery()
         {
             try
             {
-                db.Database.ExecuteSqlCommand(__sql, __sqlParameters.ToArray());
+                db.Database.ExecuteSqlCommand(__sql.ToString(), __sqlParameters.ToArray());
             }
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
             }
-            __sql = "";
+            __sql.Clear();
             __sqlParameters.Clear();
         }
 
@@ -145,10 +146,10 @@ namespace ReadTheNews.Helpers
             SqlParameter todayDate = new SqlParameter(parameterTodayDate, DateTime.Now.Date);
             __sqlParameters.Add(todayDate);
 
-            __sql += " DELETE FROM [dbo].[RssItems] " +
+            __sql.Append(" DELETE FROM [dbo].[RssItems] " +
                          " WHERE [RssChannelId] = " + parameterChannelId + " AND " +
                                " [Date] < " + parameterYesterdayDate + " AND " +
-                               " [RemoveDate] < " + parameterTodayDate + " ;";
+                               " [RemoveDate] < " + parameterTodayDate + " ;");
         }
 
         public List<RssItem> GetFiltredRssNews(int channelId, string userId)
