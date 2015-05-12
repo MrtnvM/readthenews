@@ -11,7 +11,7 @@ namespace ReadTheNews.Helpers
     public class RssDataHelper : IDisposable
     {
         private RssContext db;
-        private StringBuilder __sql;
+        private StringBuilder __sql = new StringBuilder();
         private List<SqlParameter> __sqlParameters;
         ILog logger = LogManager.GetLogger(typeof(RssDataHelper));
 
